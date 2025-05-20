@@ -46318,7 +46318,7 @@ var DropdownWithButtons = function DropdownWithButtons(_ref) {
 
 // Main App Component
 var App = function App() {
-  if (typeof window !== "undefined" && window.process && window.process.type) {
+  if (window.alt1) {
     var _A = __webpack_require__(/*! alt1/base */ "./node_modules/alt1/dist/base/index.js");
     try {
       _A.identifyApp("appconfig.json");
@@ -46656,4 +46656,4 @@ if (rotationDiv) {
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle4ebfeeb0be6d40535711.js.map
+//# sourceMappingURL=bundleda540c86ee9f74729078.js.map
