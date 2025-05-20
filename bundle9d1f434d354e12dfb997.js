@@ -1,4 +1,14 @@
-/******/ (() => { // webpackBootstrap
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory((function webpackLoadOptionalExternalModule() { try { return require("sharp"); } catch(e) {} }()), (function webpackLoadOptionalExternalModule() { try { return require("canvas"); } catch(e) {} }()), (function webpackLoadOptionalExternalModule() { try { return require("electron/common"); } catch(e) {} }()));
+	else if(typeof define === 'function' && define.amd)
+		define(["sharp", "canvas", "electron/common"], factory);
+	else if(typeof exports === 'object')
+		exports["RotationMaster"] = factory((function webpackLoadOptionalExternalModule() { try { return require("sharp"); } catch(e) {} }()), (function webpackLoadOptionalExternalModule() { try { return require("canvas"); } catch(e) {} }()), (function webpackLoadOptionalExternalModule() { try { return require("electron/common"); } catch(e) {} }()));
+	else
+		root["RotationMaster"] = factory(root["sharp"], root["canvas"], root["electron/common"]);
+})(self, (__WEBPACK_EXTERNAL_MODULE_sharp__, __WEBPACK_EXTERNAL_MODULE_canvas__, __WEBPACK_EXTERNAL_MODULE_electron_common__) => {
+return /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "./node_modules/@fortawesome/fontawesome-svg-core/index.mjs":
@@ -46032,9 +46042,9 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 /***/ ((module) => {
 
 "use strict";
-if(typeof canvas === 'undefined') { var e = new Error("Cannot find module 'canvas'"); e.code = 'MODULE_NOT_FOUND'; throw e; }
+if(typeof __WEBPACK_EXTERNAL_MODULE_canvas__ === 'undefined') { var e = new Error("Cannot find module 'canvas'"); e.code = 'MODULE_NOT_FOUND'; throw e; }
 
-module.exports = canvas;
+module.exports = __WEBPACK_EXTERNAL_MODULE_canvas__;
 
 /***/ }),
 
@@ -46045,9 +46055,9 @@ module.exports = canvas;
 /***/ ((module) => {
 
 "use strict";
-if(typeof electron/common === 'undefined') { var e = new Error("Cannot find module 'electron/common'"); e.code = 'MODULE_NOT_FOUND'; throw e; }
+if(typeof __WEBPACK_EXTERNAL_MODULE_electron_common__ === 'undefined') { var e = new Error("Cannot find module 'electron/common'"); e.code = 'MODULE_NOT_FOUND'; throw e; }
 
-module.exports = electron/common;
+module.exports = __WEBPACK_EXTERNAL_MODULE_electron_common__;
 
 /***/ }),
 
@@ -46058,9 +46068,9 @@ module.exports = electron/common;
 /***/ ((module) => {
 
 "use strict";
-if(typeof sharp === 'undefined') { var e = new Error("Cannot find module 'sharp'"); e.code = 'MODULE_NOT_FOUND'; throw e; }
+if(typeof __WEBPACK_EXTERNAL_MODULE_sharp__ === 'undefined') { var e = new Error("Cannot find module 'sharp'"); e.code = 'MODULE_NOT_FOUND'; throw e; }
 
-module.exports = sharp;
+module.exports = __WEBPACK_EXTERNAL_MODULE_sharp__;
 
 /***/ })
 
@@ -46355,8 +46365,30 @@ var App = function App() {
     setRotationName = _useState12[1]; // Editable rotation name
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    setAbilities(_asset_abilities_json__WEBPACK_IMPORTED_MODULE_3__); // Load abilities data
+    var abilitiesDataUrl = "http://localhost:3000/abilities.json";
+    fetch(abilitiesDataUrl).then(function (response) {
+      if (!response.ok) {
+        throw new Error("HTTP error! status: ".concat(response.status));
+      }
+      return response.json();
+    }).then(function (data) {
+      if (Array.isArray(data)) {
+        console.log("Fetched abilities:", data);
+        setAbilities(data);
+      } else {
+        console.error("Fetched data is not an array:", data);
+        setAbilities([]);
+      }
+    })["catch"](function (error) {
+      console.error("Error fetching abilities.json:", error);
+      setAbilities([]);
+    });
+  }, []);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    console.log("Updated abilities state:", abilities);
+  }, [abilities]); // Log whenever the abilities state changes
 
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // Load saved rotations from localStorage
     var cachedRotations = localStorage.getItem("savedRotations");
     if (cachedRotations) {
@@ -46496,8 +46528,9 @@ var App = function App() {
 
         // Update the dropdowns state with imported data
         setDropdowns(importedData.map(function (data) {
-          var ability = _asset_abilities_json__WEBPACK_IMPORTED_MODULE_3__.find(function (a) {
-            return a.Emoji === data.selectedAbility.Emoji;
+          var ability = abilities.find(function (a) {
+            var _data$selectedAbility;
+            return a.Emoji === ((_data$selectedAbility = data.selectedAbility) === null || _data$selectedAbility === void 0 ? void 0 : _data$selectedAbility.Emoji);
           });
           return {
             id: data.id,
@@ -46520,8 +46553,9 @@ var App = function App() {
     });
     if (rotation) {
       setDropdowns(rotation.data.map(function (data) {
-        var ability = _asset_abilities_json__WEBPACK_IMPORTED_MODULE_3__.find(function (a) {
-          return a.Emoji === data.selectedAbility.Emoji;
+        var ability = abilities.find(function (a) {
+          var _data$selectedAbility2;
+          return a.Emoji === ((_data$selectedAbility2 = data.selectedAbility) === null || _data$selectedAbility2 === void 0 ? void 0 : _data$selectedAbility2.Emoji);
         });
         return {
           id: data.id,
@@ -46654,6 +46688,8 @@ if (rotationDiv) {
 }
 })();
 
+/******/ 	return __webpack_exports__;
 /******/ })()
 ;
-//# sourceMappingURL=bundleda540c86ee9f74729078.js.map
+});
+//# sourceMappingURL=bundle9d1f434d354e12dfb997.js.map
