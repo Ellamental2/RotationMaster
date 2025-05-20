@@ -49992,7 +49992,7 @@ var App = function App() {
     setRotationName = _useState12[1]; // Editable rotation name
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    var abilitiesDataUrl = "http://localhost:3000/abilities.json";
+    var abilitiesDataUrl = "./abilities.json";
     fetch(abilitiesDataUrl).then(function (response) {
       if (!response.ok) {
         throw new Error("HTTP error! status: ".concat(response.status));
@@ -50395,4 +50395,4 @@ if (rotationDiv) {
 /******/ })()
 ;
 });
-//# sourceMappingURL=bundle40ac9b8ee9601e27d008.js.map
+//# sourceMappingURL=bundle41492d7e570777318a3d.js.map
