@@ -44130,17 +44130,10 @@ var DropdownWithButtons = function DropdownWithButtons(_ref) {
 
 // Main App Component
 var App = function App() {
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
-      id: 1,
-      selectedAbility: null
-    }, {
-      id: 2,
-      selectedAbility: null
-    }]),
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
     _useState4 = _slicedToArray(_useState3, 2),
     dropdowns = _useState4[0],
-    setDropdowns = _useState4[1]; // Example dropdown containers
-
+    setDropdowns = _useState4[1]; // Initialize as an empty array
   var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
     _useState6 = _slicedToArray(_useState5, 2),
     abilities = _useState6[0],
@@ -44165,9 +44158,18 @@ var App = function App() {
 
   // Function to add a new DropdownWithButtons
   var addElement = function addElement() {
-    setElements([].concat(_toConsumableArray(elements), [{
+    var newElement = {
       id: elements.length
-    }])); // Add a new empty object to the elements array
+    };
+    setElements([].concat(_toConsumableArray(elements), [newElement])); // Add a new element to the elements array
+
+    // Add a corresponding dropdown object to the dropdowns state
+    setDropdowns(function (prev) {
+      return [].concat(_toConsumableArray(prev), [{
+        id: newElement.id,
+        selectedAbility: null
+      }]);
+    });
   };
   var moveUp = function moveUp(index) {
     if (index > 0) {
@@ -44177,16 +44179,28 @@ var App = function App() {
       newElements[index - 1] = _ref2[0];
       newElements[index] = _ref2[1];
       setElements(newElements);
+      var newDropdowns = _toConsumableArray(dropdowns);
+      // Swap logic
+      var _ref3 = [newDropdowns[index], newDropdowns[index - 1]];
+      newDropdowns[index - 1] = _ref3[0];
+      newDropdowns[index] = _ref3[1];
+      setDropdowns(newDropdowns);
     }
   };
   var moveDown = function moveDown(index) {
     if (index < elements.length - 1) {
       var newElements = _toConsumableArray(elements);
       // Swap logic
-      var _ref3 = [newElements[index], newElements[index + 1]];
-      newElements[index + 1] = _ref3[0];
-      newElements[index] = _ref3[1];
+      var _ref4 = [newElements[index], newElements[index + 1]];
+      newElements[index + 1] = _ref4[0];
+      newElements[index] = _ref4[1];
       setElements(newElements);
+      var newDropdowns = _toConsumableArray(dropdowns);
+      // Swap logic
+      var _ref5 = [newDropdowns[index], newDropdowns[index + 1]];
+      newDropdowns[index + 1] = _ref5[0];
+      newDropdowns[index] = _ref5[1];
+      setDropdowns(newDropdowns);
     }
   };
   var removeElement = function removeElement(index) {
@@ -44194,6 +44208,10 @@ var App = function App() {
       return i !== index;
     });
     setElements(newElements);
+    var newDropdowns = dropdowns.filter(function (_, i) {
+      return i !== index;
+    });
+    setDropdowns(newDropdowns);
   };
   var handleExport = function handleExport() {
     var dataToExport = dropdowns.map(function (dropdown) {
@@ -44297,7 +44315,6 @@ var App = function App() {
     }
   }, "Add New"));
 };
-
 // Render the App component into the DOM
 var rotationDiv = document.getElementById("rotation");
 if (rotationDiv) {
@@ -44308,4 +44325,4 @@ if (rotationDiv) {
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle01a90766d6b30587dee9.js.map
+//# sourceMappingURL=bundle5f4784a5e53d89d510fb.js.map
