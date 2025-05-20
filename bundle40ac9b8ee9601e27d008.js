@@ -20862,7 +20862,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `html, body {
   position: fixed;
   bottom: 10px;
   left: 10px;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgb(0, 0, 0);
   padding: 10px;
   border-radius: 5px;
   z-index: 1000;
@@ -20875,7 +20875,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `html, body {
   width: 50px;
   height: 50px;
   object-fit: contain;
-}`, "",{"version":3,"sources":["webpack://./src/styles/main.scss"],"names":[],"mappings":"AAAA;EACE,SAAA;EACA,UAAA;EACA,YAAA;EACA,aAAA;EACA,gBAAA;AACF;;AAEA;EACE,YAAA;EACA,aAAA;EACA,aAAA;EACA,sBAAA;EACA,wBAAA;EACA,oBAAA;AACF;;AAEA;EACE,WAAA;EACA,YAAA;AACF;;AAEA;EACE,OAAA;EACA,aAAA;EACA,uBAAA;EACA,mBAAA;EACA,gBAAA;EACA,6BAAA;AACF;AAAE;EACE,WAAA,EAAA,2BAAA;AAEJ;AACE;EACE,mBAAA,EAAA,sCAAA;AACJ;AAEE;EACE,gBAAA,EAAA,iCAAA;EACA,kBAAA,EAAA,kCAAA;AAAJ;AAGE;EACE,gBAAA,EAAA,8CAAA;AADJ;AAIE;EACE,aAAA,EAAA,yCAAA;EACA,mBAAA,EAAA,yCAAA;EACA,QAAA,EAAA,uCAAA;AAFJ;AAKE;EACE,OAAA,EAAA,wDAAA;EACA,eAAA,EAAA,sCAAA;AAHJ;AAME;EACE,OAAA,EAAA,2DAAA;EACA,gBAAA,EAAA,yCAAA;AAJJ;AAOE;EACE,aAAA,EAAA,qCAAA;EACA,QAAA,EAAA,gCAAA;AALJ;AAQE;EACE,cAAA,EAAA,mCAAA;AANJ;AASE;EACE,WAAA,EAAA,yCAAA;EACA,YAAA,EAAA,0CAAA;AAPJ;;AAWA;EAEE,WAAA;AATF;;AAYA;EACE,WAAA;EACA,qBAAA,EAAA,sBAAA;EACA,eAAA,EAAA,qBAAA;AATF;;AAYA;EACE,0BAAA,EAAA,4BAAA;EACA,cAAA;AATF;;AAYA;EACE,eAAA;EACA,YAAA;EACA,UAAA;EACA,oCAAA;EACA,aAAA;EACA,kBAAA;EACA,aAAA;EACA,aAAA;EACA,mBAAA;EACA,SAAA;AATF;;AAYA;EACE,WAAA;EACA,YAAA;EACA,mBAAA;AATF","sourcesContent":["html, body {\r\n  margin: 0; // Remove default margins\r\n  padding: 0; // Remove default padding\r\n  width: 100vw; // Constrain the width to the viewport\r\n  height: 100vh; // Constrain the height to the viewport\r\n  overflow: hidden; // Prevent scrolling beyond the viewport\r\n}\r\n\r\n.nismainborder {\r\n  width: 100vw; // Full width of the viewport\r\n  height: 100vh; // Full height of the viewport\r\n  display: flex; // Flexbox for layout\r\n  flex-direction: column; // Optional: stack children vertically\r\n  justify-content: stretch; // Stretch children to fill vertical space\r\n  align-items: stretch; // Stretch children to fill horizontal space\r\n}\r\n\r\n.fullscreen {\r\n  width: 100%; // Ensure it stretches within the parent\r\n  height: 100%; // Ensure it stretches within the parent\r\n}\r\n\r\n.nisborder {\r\n  flex: 1; // Allow this child to grow and fill available space\r\n  display: flex; // Optional: for centering content inside\r\n  justify-content: center; // Optional: horizontal centering\r\n  align-items: center; // Optional: vertical centering\r\n  overflow-y: auto;\r\n  /* Custom scrollbar styling */\r\n  .nisborder::-webkit-scrollbar {\r\n    width: 10px; /* Width of the scrollbar */\r\n  }\r\n\r\n  .nisborder::-webkit-scrollbar-track {\r\n    background: #f1f1f1; /* Background of the scrollbar track */\r\n  }\r\n\r\n  .nisborder::-webkit-scrollbar-thumb {\r\n    background: #888; /* Color of the scrollbar thumb */\r\n    border-radius: 5px; /* Rounded corners for the thumb */\r\n  }\r\n\r\n  .nisborder::-webkit-scrollbar-thumb:hover {\r\n    background: #555; /* Darker color when hovering over the thumb */\r\n  }\r\n\r\n  .dropdown-container {\r\n    display: flex; /* Use flexbox for horizontal alignment */\r\n    align-items: center; /* Vertically align items in the center */\r\n    gap: 5px; /* Add spacing between child elements */\r\n  }\r\n\r\n  .nisinput {\r\n    flex: 1; /* Allow the input to grow and take up available space */\r\n    min-width: 75px; /* Set a minimum width for the input */\r\n  }\r\n\r\n  .nisdropdown {\r\n    flex: 1; /* Allow the dropdown to grow and take up available space */\r\n    min-width: 150px; /* Set a minimum width for the dropdown */\r\n  }\r\n\r\n  .button-group {\r\n    display: flex; /* Keep buttons in a horizontal row */\r\n    gap: 5px; /* Add spacing between buttons */\r\n  }\r\n\r\n  .nisbutton {\r\n    flex-shrink: 0; /* Prevent buttons from shrinking */\r\n  }\r\n\r\n  .ability-image {\r\n    width: 2rem; /* Set a fixed width for ability images */\r\n    height: 2rem; /* Set a fixed height for ability images */\r\n  }\r\n}\r\n\r\n.fox-image\r\n{\r\n  width: 5rem\r\n}\r\n\r\n.subtle-link {\r\n  color: #888; \r\n  text-decoration: none; /* Removes underline */\r\n  font-size: 10px; /* Adjust font size */\r\n}\r\n\r\n.subtle-link:hover {\r\n  text-decoration: underline; /* Adds underline on hover */\r\n  color: #f1f1f1;\r\n}\r\n\r\n.overlay {\r\n  position: fixed;\r\n  bottom: 10px;\r\n  left: 10px;\r\n  background-color: rgba(0, 0, 0, 0.4);\r\n  padding: 10px;\r\n  border-radius: 5px;\r\n  z-index: 1000;\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 10px;\r\n}\r\n\r\n.overlay-image {\r\n  width: 50px;\r\n  height: 50px;\r\n  object-fit: contain;\r\n}"],"sourceRoot":""}]);
+}`, "",{"version":3,"sources":["webpack://./src/styles/main.scss"],"names":[],"mappings":"AAAA;EACE,SAAA;EACA,UAAA;EACA,YAAA;EACA,aAAA;EACA,gBAAA;AACF;;AAEA;EACE,YAAA;EACA,aAAA;EACA,aAAA;EACA,sBAAA;EACA,wBAAA;EACA,oBAAA;AACF;;AAEA;EACE,WAAA;EACA,YAAA;AACF;;AAEA;EACE,OAAA;EACA,aAAA;EACA,uBAAA;EACA,mBAAA;EACA,gBAAA;EACA,6BAAA;AACF;AAAE;EACE,WAAA,EAAA,2BAAA;AAEJ;AACE;EACE,mBAAA,EAAA,sCAAA;AACJ;AAEE;EACE,gBAAA,EAAA,iCAAA;EACA,kBAAA,EAAA,kCAAA;AAAJ;AAGE;EACE,gBAAA,EAAA,8CAAA;AADJ;AAIE;EACE,aAAA,EAAA,yCAAA;EACA,mBAAA,EAAA,yCAAA;EACA,QAAA,EAAA,uCAAA;AAFJ;AAKE;EACE,OAAA,EAAA,wDAAA;EACA,eAAA,EAAA,sCAAA;AAHJ;AAME;EACE,OAAA,EAAA,2DAAA;EACA,gBAAA,EAAA,yCAAA;AAJJ;AAOE;EACE,aAAA,EAAA,qCAAA;EACA,QAAA,EAAA,gCAAA;AALJ;AAQE;EACE,cAAA,EAAA,mCAAA;AANJ;AASE;EACE,WAAA,EAAA,yCAAA;EACA,YAAA,EAAA,0CAAA;AAPJ;;AAWA;EAEE,WAAA;AATF;;AAYA;EACE,WAAA;EACA,qBAAA,EAAA,sBAAA;EACA,eAAA,EAAA,qBAAA;AATF;;AAYA;EACE,0BAAA,EAAA,4BAAA;EACA,cAAA;AATF;;AAYA;EACE,eAAA;EACA,YAAA;EACA,UAAA;EACA,8BAAA;EACA,aAAA;EACA,kBAAA;EACA,aAAA;EACA,aAAA;EACA,mBAAA;EACA,SAAA;AATF;;AAYA;EACE,WAAA;EACA,YAAA;EACA,mBAAA;AATF","sourcesContent":["html, body {\r\n  margin: 0; // Remove default margins\r\n  padding: 0; // Remove default padding\r\n  width: 100vw; // Constrain the width to the viewport\r\n  height: 100vh; // Constrain the height to the viewport\r\n  overflow: hidden; // Prevent scrolling beyond the viewport\r\n}\r\n\r\n.nismainborder {\r\n  width: 100vw; // Full width of the viewport\r\n  height: 100vh; // Full height of the viewport\r\n  display: flex; // Flexbox for layout\r\n  flex-direction: column; // Optional: stack children vertically\r\n  justify-content: stretch; // Stretch children to fill vertical space\r\n  align-items: stretch; // Stretch children to fill horizontal space\r\n}\r\n\r\n.fullscreen {\r\n  width: 100%; // Ensure it stretches within the parent\r\n  height: 100%; // Ensure it stretches within the parent\r\n}\r\n\r\n.nisborder {\r\n  flex: 1; // Allow this child to grow and fill available space\r\n  display: flex; // Optional: for centering content inside\r\n  justify-content: center; // Optional: horizontal centering\r\n  align-items: center; // Optional: vertical centering\r\n  overflow-y: auto;\r\n  /* Custom scrollbar styling */\r\n  .nisborder::-webkit-scrollbar {\r\n    width: 10px; /* Width of the scrollbar */\r\n  }\r\n\r\n  .nisborder::-webkit-scrollbar-track {\r\n    background: #f1f1f1; /* Background of the scrollbar track */\r\n  }\r\n\r\n  .nisborder::-webkit-scrollbar-thumb {\r\n    background: #888; /* Color of the scrollbar thumb */\r\n    border-radius: 5px; /* Rounded corners for the thumb */\r\n  }\r\n\r\n  .nisborder::-webkit-scrollbar-thumb:hover {\r\n    background: #555; /* Darker color when hovering over the thumb */\r\n  }\r\n\r\n  .dropdown-container {\r\n    display: flex; /* Use flexbox for horizontal alignment */\r\n    align-items: center; /* Vertically align items in the center */\r\n    gap: 5px; /* Add spacing between child elements */\r\n  }\r\n\r\n  .nisinput {\r\n    flex: 1; /* Allow the input to grow and take up available space */\r\n    min-width: 75px; /* Set a minimum width for the input */\r\n  }\r\n\r\n  .nisdropdown {\r\n    flex: 1; /* Allow the dropdown to grow and take up available space */\r\n    min-width: 150px; /* Set a minimum width for the dropdown */\r\n  }\r\n\r\n  .button-group {\r\n    display: flex; /* Keep buttons in a horizontal row */\r\n    gap: 5px; /* Add spacing between buttons */\r\n  }\r\n\r\n  .nisbutton {\r\n    flex-shrink: 0; /* Prevent buttons from shrinking */\r\n  }\r\n\r\n  .ability-image {\r\n    width: 2rem; /* Set a fixed width for ability images */\r\n    height: 2rem; /* Set a fixed height for ability images */\r\n  }\r\n}\r\n\r\n.fox-image\r\n{\r\n  width: 5rem\r\n}\r\n\r\n.subtle-link {\r\n  color: #888; \r\n  text-decoration: none; /* Removes underline */\r\n  font-size: 10px; /* Adjust font size */\r\n}\r\n\r\n.subtle-link:hover {\r\n  text-decoration: underline; /* Adds underline on hover */\r\n  color: #f1f1f1;\r\n}\r\n\r\n.overlay {\r\n  position: fixed;\r\n  bottom: 10px;\r\n  left: 10px;\r\n  background-color: rgba(0, 0, 0, 1);\r\n  padding: 10px;\r\n  border-radius: 5px;\r\n  z-index: 1000;\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 10px;\r\n}\r\n\r\n.overlay-image {\r\n  width: 50px;\r\n  height: 50px;\r\n  object-fit: contain;\r\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -49866,7 +49866,6 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
 
-
 // DropdownWithButtons Component
 var DropdownWithButtons = function DropdownWithButtons(_ref) {
   var abilities = _ref.abilities,
@@ -49957,9 +49956,9 @@ var DropdownWithButtons = function DropdownWithButtons(_ref) {
 // Main App Component
 var App = function App() {
   if (window.alt1) {
-    var _A = __webpack_require__(/*! alt1/base */ "./node_modules/alt1/dist/base/index.js");
+    var A1 = __webpack_require__(/*! alt1/base */ "./node_modules/alt1/dist/base/index.js");
     try {
-      _A.identifyApp("appconfig.json");
+      A1.identifyApp("appconfig.json");
     } catch (error) {
       console.error("Failed to initialize Alt1:", error);
     }
@@ -50247,11 +50246,10 @@ var App = function App() {
       setRotationName(rotationName);
     }
   };
-
-  // Update the overlay whenever dropdowns change
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     var overlay = document.getElementById("overlay");
     if (overlay) {
+      // Update overlay content
       var images = dropdowns.filter(function (dropdown) {
         return dropdown.selectedAbility;
       }).map(function (dropdown) {
@@ -50397,4 +50395,4 @@ if (rotationDiv) {
 /******/ })()
 ;
 });
-//# sourceMappingURL=bundle04fef150ecf3bc06b4bc.js.map
+//# sourceMappingURL=bundle40ac9b8ee9601e27d008.js.map
