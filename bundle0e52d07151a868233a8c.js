@@ -44133,7 +44133,7 @@ var App = function App() {
   var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
     _useState4 = _slicedToArray(_useState3, 2),
     dropdowns = _useState4[0],
-    setDropdowns = _useState4[1]; // Initialize as an empty array
+    setDropdowns = _useState4[1];
   var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
     _useState6 = _slicedToArray(_useState5, 2),
     abilities = _useState6[0],
@@ -44142,34 +44142,85 @@ var App = function App() {
     _useState8 = _slicedToArray(_useState7, 2),
     elements = _useState8[0],
     setElements = _useState8[1];
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
     _useState0 = _slicedToArray(_useState9, 2),
-    showFileNameInput = _useState0[0],
-    setShowFileNameInput = _useState0[1]; // Toggle for file name input
-  var _useState1 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("dropdown-data"),
+    savedRotations = _useState0[0],
+    setSavedRotations = _useState0[1]; // State to store saved rotations
+  var _useState1 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
     _useState10 = _slicedToArray(_useState1, 2),
-    fileName = _useState10[0],
-    setFileName = _useState10[1]; // Default file name
+    selectedRotation = _useState10[0],
+    setSelectedRotation = _useState10[1]; // State for selected rotation
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("Untitled Rotation"),
+    _useState12 = _slicedToArray(_useState11, 2),
+    rotationName = _useState12[0],
+    setRotationName = _useState12[1]; // Editable rotation name
 
-  // Fetch abilities.json data
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     setAbilities(_asset_abilities_json__WEBPACK_IMPORTED_MODULE_3__); // Load abilities data
-  }, []);
 
-  // Function to add a new DropdownWithButtons
+    // Load saved rotations from localStorage
+    var cachedRotations = localStorage.getItem("savedRotations");
+    if (cachedRotations) {
+      setSavedRotations(JSON.parse(cachedRotations));
+    }
+  }, []);
   var addElement = function addElement() {
     var newElement = {
       id: elements.length
     };
-    setElements([].concat(_toConsumableArray(elements), [newElement])); // Add a new element to the elements array
-
-    // Add a corresponding dropdown object to the dropdowns state
+    setElements([].concat(_toConsumableArray(elements), [newElement]));
     setDropdowns(function (prev) {
       return [].concat(_toConsumableArray(prev), [{
         id: newElement.id,
         selectedAbility: null
       }]);
     });
+  };
+  var saveRotation = function saveRotation() {
+    if (!rotationName.trim()) {
+      alert("Please provide a valid rotation name before saving.");
+      return;
+    }
+    var newRotation = {
+      name: rotationName,
+      data: dropdowns.map(function (dropdown) {
+        return {
+          id: dropdown.id,
+          selectedAbility: dropdown.selectedAbility ? {
+            Emoji: dropdown.selectedAbility.Emoji
+          } : null
+        };
+      })
+    };
+    var updatedRotations = [].concat(_toConsumableArray(savedRotations), [newRotation]);
+    setSavedRotations(updatedRotations);
+
+    // Save to localStorage
+    localStorage.setItem("savedRotations", JSON.stringify(updatedRotations));
+
+    // Update selected rotation to the newly saved rotation
+    setSelectedRotation(rotationName);
+    alert("Rotation \"".concat(rotationName, "\" saved successfully!"));
+  };
+  var deleteRotation = function deleteRotation() {
+    if (!selectedRotation) {
+      alert("Please select a rotation to delete.");
+      return;
+    }
+    var updatedRotations = savedRotations.filter(function (r) {
+      return r.name !== selectedRotation;
+    });
+    setSavedRotations(updatedRotations);
+
+    // Save updated rotations to localStorage
+    localStorage.setItem("savedRotations", JSON.stringify(updatedRotations));
+
+    // Clear the selected rotation and rotation name
+    setSelectedRotation(null);
+    setRotationName("Untitled Rotation");
+    setElements([]);
+    setDropdowns([]);
+    alert("Rotation \"".concat(selectedRotation, "\" deleted successfully!"));
   };
   var moveUp = function moveUp(index) {
     if (index > 0) {
@@ -44219,8 +44270,7 @@ var App = function App() {
         id: dropdown.id,
         selectedAbility: dropdown.selectedAbility ? {
           Emoji: dropdown.selectedAbility.Emoji
-        } // Only export the Emoji property
-        : null
+        } : null
       };
     });
     var json = JSON.stringify(dataToExport, null, 2);
@@ -44230,7 +44280,7 @@ var App = function App() {
     var url = URL.createObjectURL(blob);
     var link = document.createElement("a");
     link.href = url;
-    link.download = "rotations.json";
+    link.download = "".concat(rotationName || "rotation", ".json");
     link.click();
     URL.revokeObjectURL(url);
   };
@@ -44252,11 +44302,9 @@ var App = function App() {
           });
           return {
             id: data.id,
-            selectedAbility: ability || null // Ensure the full ability object is set
+            selectedAbility: ability || null
           };
         }));
-
-        // Update the elements array to match the imported dropdowns
         setElements(importedData.map(function (_, index) {
           return {
             id: index
@@ -44264,6 +44312,30 @@ var App = function App() {
         }));
       };
       reader.readAsText(file);
+      setRotationName(file.name);
+    }
+  };
+  var handleSwitchRotation = function handleSwitchRotation(rotationName) {
+    var rotation = savedRotations.find(function (r) {
+      return r.name === rotationName;
+    });
+    if (rotation) {
+      setDropdowns(rotation.data.map(function (data) {
+        var ability = _asset_abilities_json__WEBPACK_IMPORTED_MODULE_3__.find(function (a) {
+          return a.Emoji === data.selectedAbility.Emoji;
+        });
+        return {
+          id: data.id,
+          selectedAbility: ability || null
+        };
+      }));
+      setElements(rotation.data.map(function (_, index) {
+        return {
+          id: index
+        };
+      }));
+      setSelectedRotation(rotationName);
+      setRotationName(rotationName);
     }
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
@@ -44272,7 +44344,55 @@ var App = function App() {
     src: _asset_resource_fox_webp__WEBPACK_IMPORTED_MODULE_5__,
     alt: "Fox",
     className: "fox-image"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", null, "Welcome to the Rotations App"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", null, "Welcome to the Rotations App"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    style: {
+      marginBottom: "10px"
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
+    htmlFor: "rotation-name",
+    style: {
+      marginRight: "10px"
+    }
+  }, "Rotation Name:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+    className: "nisinput",
+    id: "rotation-name",
+    type: "text",
+    value: rotationName,
+    onChange: function onChange(e) {
+      return setRotationName(e.target.value);
+    },
+    placeholder: "Enter rotation name",
+    style: {
+      padding: "5px",
+      width: "200px"
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    className: "nisbutton",
+    onClick: saveRotation
+  }, "Save"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("select", {
+    className: "nisdropdown",
+    style: {
+      marginLeft: "10px"
+    },
+    value: selectedRotation || "",
+    onChange: function onChange(e) {
+      return handleSwitchRotation(e.target.value);
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", {
+    value: "",
+    disabled: true
+  }, "Select Saved Rotation"), savedRotations.map(function (rotation) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", {
+      key: rotation.name,
+      value: rotation.name
+    }, rotation.name);
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    className: "nisbutton",
+    onClick: deleteRotation,
+    title: "Delete Selected Rotation"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_2__.FontAwesomeIcon, {
+    icon: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_6__.faTrashCan
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
     className: "nisbutton",
     onClick: handleExport
   }, "Export"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
@@ -44303,18 +44423,30 @@ var App = function App() {
       moveUp: moveUp,
       moveDown: moveDown,
       removeElement: removeElement,
-      setDropdowns: setDropdowns // Pass setDropdowns as a prop
-      ,
-      dropdown: dropdowns[index] // Pass the corresponding dropdown object
+      setDropdowns: setDropdowns,
+      dropdown: dropdowns[index]
     });
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
-    onClick: addElement,
-    className: "nisbutton add-button",
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
       marginTop: "10px"
     }
-  }, "Add New"));
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: addElement,
+    className: "nisbutton add-button"
+  }, "Add New"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: function onClick() {
+      setElements([]);
+      setDropdowns([]);
+    },
+    className: "nisbutton clear-button",
+    style: {
+      marginLeft: "10px"
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_2__.FontAwesomeIcon, {
+    icon: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_6__.faTrashCan
+  }), " Clear All")));
 };
+
 // Render the App component into the DOM
 var rotationDiv = document.getElementById("rotation");
 if (rotationDiv) {
@@ -44325,4 +44457,4 @@ if (rotationDiv) {
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle5f4784a5e53d89d510fb.js.map
+//# sourceMappingURL=bundle0e52d07151a868233a8c.js.map
