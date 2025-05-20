@@ -44048,15 +44048,12 @@ var DropdownWithButtons = function DropdownWithButtons(_ref) {
     moveUp = _ref.moveUp,
     moveDown = _ref.moveDown,
     removeElement = _ref.removeElement,
-    setDropdowns = _ref.setDropdowns;
+    setDropdowns = _ref.setDropdowns,
+    dropdown = _ref.dropdown;
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
     _useState2 = _slicedToArray(_useState, 2),
     filter = _useState2[0],
     setFilter = _useState2[1]; // State to manage the filter input
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
-    _useState4 = _slicedToArray(_useState3, 2),
-    selectedAbility = _useState4[0],
-    setSelectedAbility = _useState4[1]; // State to manage the selected ability
 
   var filteredAbilities = abilities.filter(function (a) {
     return a.Category.toLowerCase().includes(filter.toLowerCase()) || a.Emoji.toLowerCase().includes(filter.toLowerCase());
@@ -44066,7 +44063,6 @@ var DropdownWithButtons = function DropdownWithButtons(_ref) {
     var ability = abilities.find(function (a) {
       return a.Emoji === selectedEmoji;
     }); // Find the full ability object
-    setSelectedAbility(ability);
 
     // Update the dropdowns state in the parent component
     setDropdowns(function (prev) {
@@ -44091,7 +44087,7 @@ var DropdownWithButtons = function DropdownWithButtons(_ref) {
     className: "nisinput"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("select", {
     className: "nisdropdown",
-    value: selectedAbility ? selectedAbility.Emoji : "",
+    value: dropdown.selectedAbility ? dropdown.selectedAbility.Emoji : "",
     onChange: handleDropdownChange
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", {
     value: ""
@@ -44100,9 +44096,9 @@ var DropdownWithButtons = function DropdownWithButtons(_ref) {
       key: a.EmojiId,
       value: a.Emoji
     }, a.Emoji);
-  })), selectedAbility && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
-    src: selectedAbility.Src,
-    alt: selectedAbility.Emoji,
+  })), dropdown.selectedAbility && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
+    src: dropdown.selectedAbility.Src,
+    alt: dropdown.selectedAbility.Emoji,
     className: "ability-image"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "button-group"
@@ -44134,33 +44130,33 @@ var DropdownWithButtons = function DropdownWithButtons(_ref) {
 
 // Main App Component
 var App = function App() {
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
       id: 1,
       selectedAbility: null
     }, {
       id: 2,
       selectedAbility: null
     }]),
-    _useState6 = _slicedToArray(_useState5, 2),
-    dropdowns = _useState6[0],
-    setDropdowns = _useState6[1]; // Example dropdown containers
+    _useState4 = _slicedToArray(_useState3, 2),
+    dropdowns = _useState4[0],
+    setDropdowns = _useState4[1]; // Example dropdown containers
 
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+    _useState6 = _slicedToArray(_useState5, 2),
+    abilities = _useState6[0],
+    setAbilities = _useState6[1];
   var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
     _useState8 = _slicedToArray(_useState7, 2),
-    abilities = _useState8[0],
-    setAbilities = _useState8[1];
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+    elements = _useState8[0],
+    setElements = _useState8[1];
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
     _useState0 = _slicedToArray(_useState9, 2),
-    elements = _useState0[0],
-    setElements = _useState0[1];
-  var _useState1 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    showFileNameInput = _useState0[0],
+    setShowFileNameInput = _useState0[1]; // Toggle for file name input
+  var _useState1 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("dropdown-data"),
     _useState10 = _slicedToArray(_useState1, 2),
-    showFileNameInput = _useState10[0],
-    setShowFileNameInput = _useState10[1]; // Toggle for file name input
-  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("dropdown-data"),
-    _useState12 = _slicedToArray(_useState11, 2),
-    fileName = _useState12[0],
-    setFileName = _useState12[1]; // Default file name
+    fileName = _useState10[0],
+    setFileName = _useState10[1]; // Default file name
 
   // Fetch abilities.json data
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
@@ -44290,6 +44286,8 @@ var App = function App() {
       moveDown: moveDown,
       removeElement: removeElement,
       setDropdowns: setDropdowns // Pass setDropdowns as a prop
+      ,
+      dropdown: dropdowns[index] // Pass the corresponding dropdown object
     });
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
     onClick: addElement,
@@ -44310,4 +44308,4 @@ if (rotationDiv) {
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle9aa1d002f105eb2fb8b4.js.map
+//# sourceMappingURL=bundle01a90766d6b30587dee9.js.map
