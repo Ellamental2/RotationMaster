@@ -1,0 +1,16 @@
+{
+  "appName": "RotationMaster",
+  "description": "Use for saving, sharing and viewing ability rotations",
+  "appUrl": "./index.html",
+  "configUrl": "./appconfig.json",
+  "iconUrl": "./icon.png",
+  "defaultWidth": 650,
+  "defaultHeight": 300,
+  "minWidth": 650,
+  "minHeight": 180,
+  "maxWidth": 1000,
+  "maxHeight": 1000,
+  "requestHandlers": [],
+  "activators": [],
+  "permissions": "overlay"
+}
