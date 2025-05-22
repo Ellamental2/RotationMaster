@@ -1,24 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rotations</title>
-  <link rel="stylesheet" type="text/css" href="https://runeapps.org/nis/nis.css" />
-<script defer src="bundle41492d7e570777318a3d.js"></script></head>
-<body 
-  style={{
-    width: "650px", // Default width
-    minWidth: "650px", // Minimum width to prevent shrinking
-    margin: "0 auto", // Center the container horizontally
-  }}
-  id="body"
-  class="nis body"
->
-  <div class="nismainborder fullscreen" >
-    <div class="nisborder">
-      <div id="rotation" class="rotation"></div>
-    </div>    
-  </div>
-</body>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="description" content="save and share rotations, and view them on a cheat sheet in game" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotation Master</title>
+    <link rel="stylesheet" type="text/css" href="https://runeapps.org/nis/nis.css" />
+  </head>
+  <body id="body"
+        class="nis body">
+    <div id="output"></div>
+    <div id="RotationMaster">
+      <ul class="tracked-region" id="Abilities"></ul>
+      <div class="nismainborder fullscreen">
+        <div class="nisborder">
+          <div id="rotation" class="rotation">
+            <img src="./asset/resource/fox.webp" alt="Fox" class="fox-image">
+            <h1>Welcome to the Rotations Master</h1>
+            <div id="rotation-controls"></div>
+            <div id="dropdowns-container"></div>
+            <div id="overlay" class="overlay"></div>
+          </div>
+          <script src="./dist/index.js" type="module"></script>
+        </div>
+      </div>
+    </div>
+    <div id="Settings">
+      <div class="container">
+      </div>
+    </div>
+    <div id="ToggleOverlayButton" style="display:none!important;">🖼️</div>
+    <div id="OverlayCanvasOutput">
+      <canvas willReadFrequently="true" width="4000" height="4000"></canvas>
+      <canvas id="bolgCanvas" width="27" height="27"></canvas>
+    </div>
+    <script src="./main.js" defer></script>
+  </body>
 </html>

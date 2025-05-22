@@ -7,10 +7,10 @@
   "defaultWidth": 750,
   "defaultHeight": 450,
   "minWidth": 750,
-  "minHeight": 30,
+  "minHeight": 50,
   "maxWidth": 1000,
   "maxHeight": 1000,
   "requestHandlers": [],
   "activators": [],
-  "permissions": "overlay"
+  "permissions": "pixel, gamestate, overlay"
 }
