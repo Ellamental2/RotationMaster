@@ -44,6 +44,13 @@
         "Added a show patch notes button so that all patch notes can be viewed",
         "Ordered patch notes in descending order so that newer versions come first"
       ]
+    },
+    {
+      "version": "2.1.2",
+      "description": "Add Action Bug Fix.",
+      "changes": [
+        "The add action button wasn't working, sorry! it's fixed now."
+      ]
     }
   ]
 }
