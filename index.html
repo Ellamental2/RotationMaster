@@ -7,7 +7,7 @@
   <title>Rotation Master</title>
   <link rel="stylesheet" type="text/css" href="https://runeapps.org/nis/nis.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-<script defer src="main39e36d35d711092d135e.js"></script></head>
+<script defer src="main252f2e9d77529bbd7030.js"></script></head>
 <body id="body" class="nis body">
   <div id="patch-notes-container">
     <h2>Patch Notes:</h2>
@@ -68,30 +68,24 @@
         </div>
         <hr style="margin: 20px 0, border: 1px solid #ccc" />
 
-        <div id="rotationContainers">
-          <div class="rotationContainer" id="rotationContainer-0"
-            <div id="dropdown-preview-0" class="dropdown-preview">
-              <div id="rotation-preview-0" class="rotation-preview"></div>
-              <button id="toggleDetailsButton-0" class="nisbutton">
-              <i class="fa-solid fa-chevron-down"></i>
-              </button>
-            </div>
-            <div id="rotation-details-0" class="rotation-details">
-              <div id="dropdowns-container-0"><p>Loading dropdowns...</p></div>
-              <div id="dropdown-controls-0" style="margin-top: 10px;">
-                <button onClick="addDropdown(0)" class="nisbutton add-button">
-                Add Action
-                </button>
-                <button id="clearButton-0" class="nisbutton" style="margin-left: 10px">
-                <i class="fas fa-trash-alt"></i> Clear All
-                </button>
-              </div>
-            </div>
-            <div class="rotation-buttons">
-              <button class="nisbutton move-up-button"><i class="fa-solid fa-chevron-up"></i></button>
-              <button class="nisbutton move-down-button"><i class="fa-solid fa-chevron-down"></i></button>
-              <button class="nisbutton delete-rotation-button"><i class="fas fa-trash-alt"></i></button>
-            </div>
+        <div id="dropdown-preview">
+          <div id="rotation-preview" class="rotation-preview"></div>
+          <button id="toggleDetailsButton"
+                  class="nisbutton" ;>
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+        </div>
+        <div id="rotation-details">
+          <div id="dropdowns-container"><p>Loading dropdowns...</p></div>
+          <div id="dropdown-controls" style="margin-top: 10px;">
+            <button id="addActionButton" class="nisbutton add-button">
+              Add Action
+            </button>
+            <button id="clearButton"
+                    class="nisbutton"
+                    style="margin-left: 10px">
+              <i class="fas fa-trash-alt"></i> Clear All
+            </button>
           </div>
         </div>
         <button id="addRotationContainerButton" class="nisbutton">Add Rotation</button>
