@@ -7,103 +7,111 @@
   <title>Rotation Master</title>
   <link rel="stylesheet" type="text/css" href="https://runeapps.org/nis/nis.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-<script defer src="maineb06b47ba4506bb7ffd5.js"></script></head>
+<script defer src="main55e7ef8c13a1e0c48c21.js"></script></head>
 <body id="body" class="nis body">
+  <div id="patch-notes-container" style="display: none; position: absolute; top: 10%; left: 10%; width: 80%; background: white; border: 1px solid #ccc; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 1000; padding: 20px; border-radius: 8px;">
+    <h2>Patch Notes:</h2>
+    <div id="patch-notes-content"></div>
+    <button id="close-patch-notes" class="nisbutton" style="margin-top: 20px;">Close</button>
+  </div>
   <div id="output"></div>
   <div class="nismainborder fullscreen">
-      <!-- Rotations -->
-      <div id="RotationMaster">
-        <div id="rotation" class="rotation">
-          <img src="asset/resource/fox.webp" alt="Fox" class="fox-image" id="fox-image">
-          <h1>Welcome to the Rotations Master</h1>
-
-          <!--{/* Rotation Name Input */}-->
-          <div style="margin-bottom: 10px;">
-            <label htmlFor="rotation-name" style="margin-right: 10px">
-              Rotation Name:
-            </label>
-            <input class="nisinput"
-                   id="rotation-name"
-                   type="text"
-                   placeholder="Enter rotation name"
-                   style="padding: 5px, width: 200px" />
-          </div>
-
-          <!--{/* Save, Export, and Import Buttons */}-->
-          <div>
-            <button class="nisbutton" onClick=handleSaveRotation()>
-              Save
-            </button>
-            <!--{/* Dropdown to switch between saved rotations */}-->
-            <select class="nisdropdown"
-                    id="savedRotations"
-                    style="margin-left: 10px">
-              Options will be dynamically populated
-            </select>
-            <button class="nisbutton" onClick="deleteRotation()" title="Delete Selected Rotation">
-              <i class="fas fa-trash-alt"></i>
-            </button>
-            <button class="nisbutton" onClick="handleExportRotation()">
-              Export
-            </button>
-            <input type="file"
-                   accept="application/json"
-                   onChange={handleImport}
-                   style="display: none"
-                   id="import-file" />
-            <label htmlFor="import-file">
-              <button class="nisbutton" onClick="handleImportRotation()">
-                Import
-              </button>
-            </label>
-          </div>
-          <hr style="margin: 20px 0, border: 1px solid #ccc" />
-
-          <div id="dropdown-preview">
-            <div id="rotation-preview" class="rotation-preview"></div>
-            <button id="toggle-details"
-                    class="nisbutton"
-                    onClick="handleToggleDetails()" ;>
-              <i class="fa-solid fa-chevron-down"></i>
-            </button>
-          </div>
-          <div id="rotation-details">
-            <div id="dropdowns-container"><p>Loading dropdowns...</p></div>
-            <div id="dropdown-controls" style="margin-top: 10px;">
-              <button onClick=addDropdown() class="nisbutton add-button">
-                Add Action
-              </button>
-              <button onClick="clearDropdowns()"
-                      class="nisbutton"
-                      style="margin-left: 10px">
-                <i class="fas fa-trash-alt"></i> Clear All
-              </button>
-            </div>
-          </div>
-
-          <hr style="margin: 20px 0, border: 1px solid #ccc" />
-
-          <!-- Settings -->
-          <div id="Settings">
-            <div class="container">
-            </div>
-          </div>
-
-
-          <div id="ToggleOverlayButton" style="display:none!important;">🖼️</div>
-
-
-          <hr style="margin: 20px 0, border: 1px solid #ccc" />
-
-          <a href="https://patreon.com/IMEllamental?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink"
-             target="_blank"
-             rel="noopener noreferrer"
-             class="subtle-link">
-            <i class="fab fa-patreon"></i> Support on Patreon
-          </a>
+    <!-- Rotations -->
+    <div id="RotationMaster">
+      <div id="rotation" class="rotation">
+        <div class="mainHeader">
+          <img src="./icon.png" alt="Fox" class="fox-image" id="fox-image">
+          <h1 id="Title">ROTATION MASTER</h1>
+          <img src="./icon.png" alt="Fox" class="fox-image" id="fox-image">
         </div>
-        <script src="./dist/index.js" type="module"></script>
+
+        <!--{/* Rotation Name Input */}-->
+
+        <div style="margin-bottom: 10px;">
+          <label id="rotationNameLabel" htmlFor="rotation-name" style="margin-right: 10px">
+            Rotation Name:
+          </label>
+          <input class="nisinput"
+                 id="rotation-name"
+                 type="text"
+                 placeholder="Enter rotation name"
+                 style="padding: 5px, width: 200px" />
+        </div>
+
+        <!--{/* Save, Export, and Import Buttons */}-->
+        <div>
+          <button id="saveButton" class="nisbutton">
+            Save
+          </button>
+          <!--{/* Dropdown to switch between saved rotations */}-->
+          <select class="nisdropdown"
+                  id="savedRotations"
+                  style="margin-left: 10px">
+            Options will be dynamically populated
+          </select>
+          <button id="deleteRotButton" class="nisbutton" title="Delete Selected Rotation">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+          <button id="exportButton" class="nisbutton" ">
+            Export
+          </button>
+          <input type="file"
+                 accept="application/json"
+                 onChange={handleImport}
+                 style="display: none"
+                 id="import-file" />
+          <label htmlFor="import-file">
+            <button id="importButton" class="nisbutton">
+              Import
+            </button>
+          </label>
+        </div>
+        <hr style="margin: 20px 0, border: 1px solid #ccc" />
+
+        <div id="dropdown-preview">
+          <div id="rotation-preview" class="rotation-preview"></div>
+          <button id="toggleDetailsButton"
+                  class="nisbutton" ;>
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+        </div>
+        <div id="rotation-details">
+          <div id="dropdowns-container"><p>Loading dropdowns...</p></div>
+          <div id="dropdown-controls" style="margin-top: 10px;">
+            <button onClick=addDropdown() class="nisbutton add-button">
+              Add Action
+            </button>
+            <button id="clearButton"
+                    class="nisbutton"
+                    style="margin-left: 10px">
+              <i class="fas fa-trash-alt"></i> Clear All
+            </button>
+          </div>
+        </div>
+
+        <hr style="margin: 20px 0, border: 1px solid #ccc" />
+
+        <!-- Settings -->
+        <div id="Settings">
+          <div class="container">
+          </div>
+        </div>
+
+
+        <div id="ToggleOverlayButton" style="display:none!important;">🖼️</div>
+
+
+        <hr style="margin: 20px 0, border: 1px solid #ccc" />
+
+        <a href="https://patreon.com/IMEllamental?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="subtle-link">
+          <i class="fab fa-patreon"></i> Support on Patreon
+        </a>
       </div>
+      <script src="./dist/index.js" type="module"></script>
+    </div>
   </div>
   <div id="OverlayCanvasOutput">
     <canvas willReadFrequently="true" width="4000" height="4000"></canvas>
