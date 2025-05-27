@@ -33,7 +33,16 @@
       "description": "Added patch notes.",
       "changes": [
         "Introduced patch notes feature to keep users informed about updates.",
-        "Automatically view patch notes if the sysem detects a new version"
+        "Automatically view patch notes if the system detects a new version"
+      ]
+    },
+    {
+      "version": "2.1.1",
+      "description": "Correct patch notes.",
+      "changes": [
+        "Corrected a typo in the 2.1.0 changes.",
+        "Added a show patch notes button so that all patch notes can be viewed",
+        "Ordered patch notes in descending order so that newer versions come first"
       ]
     }
   ]
