@@ -47,6 +47,7 @@ type Ability = {
   EmojiId: string;     // A unique identifier for the ability
   Category: string;    // The category of the ability
   Src: string;         // The source URL for the ability's image
+  Keybind?: string;    // Optional keybind for the ability
 };
 const dropdowns: Dropdown[] = []; // Initialize as an empty array
 
@@ -129,6 +130,46 @@ const renderDropdowns = () => {
       abilityImage.src = dropdown.selectedAbility.Src;
       abilityImage.alt = dropdown.selectedAbility.Emoji;
     }
+
+    // Create the keybind inputs for the ability
+    const keybindInput = document.createElement('input');
+    keybindInput.type = 'text';
+    keybindInput.placeholder = 'Keybind (optional)';
+    keybindInput.className = 'nisinput keybind-input';
+    if (dropdown.selectedAbility && dropdown.selectedAbility.Keybind) {
+      keybindInput.value = dropdown.selectedAbility.Keybind;
+    }
+    keybindInput.addEventListener('keydown', (e) => {
+      // Prevent default action to avoid typing in the input
+      e.preventDefault();
+
+      if (e.key === 'Escape') {
+        // Clear the keybind input if Escape is pressed
+        keybindInput.value = '';
+        delete dropdown.selectedAbility!.Keybind;
+        renderRotationPreview();
+        return;
+      }
+
+      const keybind = (e.key as string);
+      // Check to see if modifier keys are pressed
+      const modifier = [e.ctrlKey, e.altKey, e.shiftKey].filter(Boolean).map((mod) => {
+        if (mod === e.ctrlKey) return 'Ctrl';
+        if (mod === e.altKey) return 'Alt';
+        if (mod === e.shiftKey) return 'Shift';
+        return '';
+      }).join('+');
+      // Set the keybind input value
+      keybindInput.value = modifier ? `${modifier} + ${keybind}` : keybind;
+
+      // Update the selected ability's keybind
+      if (dropdown.selectedAbility) {
+        dropdown.selectedAbility.Keybind = keybindInput.value;
+      }
+
+      renderRotationPreview();
+    });
+
     // Create the button group
     const buttonGroup = document.createElement('div');
     buttonGroup.className = 'button-group';
@@ -179,6 +220,7 @@ const renderDropdowns = () => {
     dropdownDiv.appendChild(filterInput);
     dropdownDiv.appendChild(selectElement);
     dropdownDiv.appendChild(abilityImage);
+    dropdownDiv.appendChild(keybindInput);
     dropdownDiv.appendChild(buttonGroup);
 
     // Append the dropdown container to the main container
@@ -249,6 +291,7 @@ const saveRotation = (rotationName: string, rotationData: any) => {
 
   // Refresh the dropdown
   populateSavedRotations();
+  renderRotationPreview();
 
   // set the selected rotation to the one you just saved
   const rotationDropdown = getById('savedRotations') as HTMLSelectElement;
@@ -348,7 +391,7 @@ const handleImportRotation = () => {
             // update ability info from abilities.json incase images have changed
             parsedData = parsedData.map((item: any) => {
               const ability = abilities.find((a: Ability) => a.Emoji === item.Emoji);
-              return ability ? { ...ability } : null;
+              return ability ? { ...ability, Keybind: item.Keybind || '' } : null;
             }).filter((item: any) => item !== null);
 
             // the parsed data must be an array of dropdowns
@@ -476,7 +519,9 @@ const renderRotationPreview = () => {
       .slice(i, i + numImagesPerRow)
       .map(
         (dropdown) =>
-          `<img src="${dropdown.selectedAbility!.Src}" alt="${dropdown.selectedAbility!.Emoji}" class="rotation-preview-image" />`
+          `<div class="rotation-preview-image-container" ${dropdown.selectedAbility!.Keybind && `style="--keybind:'${dropdown.selectedAbility!.Keybind}';"`}>
+            <img src="${dropdown.selectedAbility!.Src}" alt="${dropdown.selectedAbility!.Emoji}" class="rotation-preview-image" />
+          </div>`
       )
       .join(rowspacer);
     // Add ' > ' before rows that are not the first row

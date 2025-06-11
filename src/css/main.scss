@@ -389,10 +389,25 @@ a.subtle-link:hover {
   margin-bottom: 3px; /* Add spacing between rows */
 }
 
+.rotation-preview-image-container {
+  display: flex;
+  position: relative;
+  &::after {
+    content: var(--keybind);
+    position: absolute;
+    font-size: 12px;
+    color: #F1F1F1;
+    top: -10px;
+    left: -10px;
+    width: 50px;
+  }
+}
+
 .rotation-preview-image {
   width: 2rem;
   height: 2rem;
   object-fit: contain;
+  position: relative;
 }
 
 .row-spacer {
