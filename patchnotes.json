@@ -62,6 +62,13 @@
         "Updated the UI to accommodate multiple rotations.",
         "Moved the close button on this patch notes window to the top right corner so that it is more consistent with other windows."
       ]
+    },
+    {
+      "version": "2.2.1",
+      "description": "Patch - Fixed a bug with switching to old rotations",
+      "changes": [
+        "Added functionality to enable users to switch to an older rotation set, which was saved in the old data format."
+      ]
     }
   ]
 }
