@@ -7,7 +7,7 @@
   <title>Rotation Master</title>
   <link rel="stylesheet" type="text/css" href="https://runeapps.org/nis/nis.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-<script defer src="main252f2e9d77529bbd7030.js"></script></head>
+<script defer src="main9f751f751cb3a5264492.js"></script></head>
 <body id="body" class="nis body">
   <div id="patch-notes-container">
     <h2>Patch Notes:</h2>
@@ -66,27 +66,11 @@
             </button>
           </label>
         </div>
+        <p>Press Alt + 1 to cycle between rotations on overlay</p>
         <hr style="margin: 20px 0, border: 1px solid #ccc" />
 
-        <div id="dropdown-preview">
-          <div id="rotation-preview" class="rotation-preview"></div>
-          <button id="toggleDetailsButton"
-                  class="nisbutton" ;>
-            <i class="fa-solid fa-chevron-down"></i>
-          </button>
-        </div>
-        <div id="rotation-details">
-          <div id="dropdowns-container"><p>Loading dropdowns...</p></div>
-          <div id="dropdown-controls" style="margin-top: 10px;">
-            <button id="addActionButton" class="nisbutton add-button">
-              Add Action
-            </button>
-            <button id="clearButton"
-                    class="nisbutton"
-                    style="margin-left: 10px">
-              <i class="fas fa-trash-alt"></i> Clear All
-            </button>
-          </div>
+        <div id="rotationContainers">
+          <!-- Rotations will be dynamically added here -->
         </div>
         <button id="addRotationContainerButton" class="nisbutton">Add Rotation</button>
 
