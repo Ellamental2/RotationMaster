@@ -77,6 +77,13 @@
         "This isn't really much of a function change, but I have created a discord server for people to hop on and share rotations and feedback!",
         "Added a button on the bottom of the settings section with a link to the discord server"
       ]
+    },
+    {
+      "version": "2.2.3",
+      "description": "Better Buff Bars Compatability Fix",
+      "changes": [
+        "Fixed a bug that was causing the overlays to flicker when using the Better Buff Bars addon at the same time."
+      ]
     }
   ]
 }
