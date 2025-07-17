@@ -84,6 +84,16 @@
       "changes": [
         "Fixed a bug that was causing the overlays to flicker when using the Better Buff Bars addon at the same time."
       ]
+    },
+    {
+      "version": "2.3.0",
+      "description": "Better Rotation Notation! This is a major version increment so there may be bugs (hopefully not too many), if you do find any please feel free to come bother me on the discord about them.",
+      "changes": [
+        "Introduce separator selector and notes input for each dropdown. This allows for more complex rotations to be created, such as those where you need to press 2 abilities at the same time!",
+        "Notes, added the ability to add a note to each ability which is shown in the overlay over the image",
+        "Seperator and notes are saved/loaded with rotations and shown in the preview, Default separator is '→', notes default to null"
+      ]
     }
+
   ]
 }
