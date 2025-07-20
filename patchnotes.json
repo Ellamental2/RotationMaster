@@ -93,6 +93,15 @@
         "Notes, added the ability to add a note to each ability which is shown in the overlay over the image",
         "Seperator and notes are saved/loaded with rotations and shown in the preview, Default separator is '→', notes default to null"
       ]
+    },
+    {
+      "version": "2.3.1",
+      "description": "Bug Fixes and Quality of Life Improvements",
+      "changes": [
+        "Added 'tc' to the list of separators to allow for better notation of rotations that require a target cycle.",
+        "Added '↵'(new line) options to allow you to mark that you want a certain ability to be at the start of a line.",
+        "Resolved a bug with deleting rotations."
+      ]
     }
 
   ]
