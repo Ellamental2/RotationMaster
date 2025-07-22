@@ -102,6 +102,14 @@
         "Added '↵'(new line) options to allow you to mark that you want a certain ability to be at the start of a line.",
         "Resolved a bug with deleting rotations."
       ]
+    },
+    {
+      "version": "2.4.0",
+      "description": "Copying Rotations as Text",
+      "changes": [
+        "Added an edit rotation button. which opens a new popup. In this popup you can paste a rotation from PVME.",
+        "filter by Emoji names eg 'gconc'"
+      ]
     }
 
   ]
