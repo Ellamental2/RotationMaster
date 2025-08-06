@@ -1,0 +1,136 @@
+<div class="center-aligned">
+  <!-- Loading Overlay -->
+  @if (isLoading) {
+    <div class="loading-overlay">
+      <div class="loading-spinner">
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        <p>Processing...</p>
+      </div>
+    </div>
+  }
+
+  <div style="margin-bottom: 10px;">
+    <label
+      id="rotationNameLabel"
+      for="rotation-name"
+      style="margin-right: 10px;"
+      >
+      Rotation Name:
+    </label>
+    <input
+      class="nisinput"
+      id="rotation-name"
+      type="text"
+      placeholder="Enter rotation name"
+      [ngModel]="rotationSet.Name"
+      (ngModelChange)="setRotationName($event)"
+      [disabled]="isLoading"
+      />
+  </div>
+
+  <!--{/* Save, Export, and Import Buttons */}-->
+  <div class="center-aligned">
+    <div class="rotation-controls">
+      <button
+        id="newRotationSetButton"
+        class="nisbutton"
+        (click)="newRotation()"
+        title="Create New Rotation Set"
+        >
+        <i class="fa-solid fa-file"></i>
+      </button>
+      <button
+        id="saveButton"
+        class="nisbutton"
+        (click)="saveRotationSet()"
+        title="Save Rotation Set"
+        [disabled]="isLoading"
+        >
+        <i class="fa-solid fa-floppy-disk"></i>
+      </button>
+
+      <!--{/* Dropdown to switch between saved rotations */}-->
+      <select
+        class="nisdropdown"
+        id="savedRotations"
+        style="margin-left: 10px;"
+        (change)="onSetSelectionChange($event)"
+        [disabled]="isLoading"
+        >
+        <option value="" disabled selected>Select saved rotation</option>
+        @for (set of savedRotationSets; track set) {
+          <option [value]="set.Name">
+            {{ set.Name }}
+          </option>
+        }
+      </select>
+
+      <button
+        id="deleteRotButton"
+        class="nisbutton"
+        title="Delete Selected Rotation"
+        (click)="deleteRotationSet()"
+        [disabled]="isLoading"
+        >
+        <i class="fas fa-trash-alt"></i>
+      </button>
+
+      <button
+        id="exportButton"
+        class="nisbutton"
+        title="Export Rotation Set as JSON"
+        (click)="exportRotationSet()"
+        [disabled]="isLoading"
+        >
+        <i class="fa-solid fa-file-export"></i>
+      </button>
+
+      <button
+        id="importButton"
+        class="nisbutton"
+        title="Import Rotation Set from JSON"
+        (click)="importRotationSet()"
+        [disabled]="isLoading"
+        >
+        <i class="fa-solid fa-file-import"></i>
+      </button>
+    </div>
+  </div>
+
+  @if (rotationSet.Data.length > 1) {
+    <p>Press Alt + 1 to cycle between rotations on overlay</p>
+  }
+
+  <hr style="margin: 20px 0; border: 1px solid #ccc" />
+
+  <div class="drag-list" id="rotationContainers" cdkDropList (cdkDropListDropped)="drop($any($event))">
+    @for (rotation of rotationSet.Data; track trackByRotationId($index, rotation); let i = $index) {
+      <div class="drag-item" cdkDrag [cdkDragDisabled]="isAnyModalOpen">
+        <rm-rotation-container
+          class="center-aligned"
+          [rotation]="rotation"
+          [abilities]="allAbilities"
+          [abilitiesPerRow]="abilitiesPerRow"
+          [isSelected]="selectedRotationIndex === i"
+          [rotationIndex]="i"
+          [showDetails]="getRotationDetailsVisibility(rotation.Id)"
+          (rotationChange)="updateRotation($event)"
+          (deleteRotation)="deleteRotation($event)"
+          (rotationSelected)="onRotationSelected($event)"
+          (modalStateChange)="onModalStateChange($event)"
+          (loading)="onChildLoading($event)"
+          (focusOnRotation)="onFocusOnRotation($event)"
+        ></rm-rotation-container>
+      </div>
+    }
+  </div>
+
+  <button
+    id="addRotationContainerButton"
+    class="nisbutton"
+    (click)="addRotation()"
+    [disabled]="isLoading"
+    >
+    <i class="fa-solid fa-plus"></i> Add Rotation
+  </button>
+</div>

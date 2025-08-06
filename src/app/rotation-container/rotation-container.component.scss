@@ -1,0 +1,94 @@
+
+
+.rotation-container {
+    width: 95%;
+    margin: 0;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #1c2c34;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex; /* Enables flexbox for the container */
+    flex-direction: column; /* Stacks children vertically */
+
+    .rotation-label {
+        align-self: flex-start;
+    }
+
+    .dropdown-controls {
+        align-self: flex-end;
+    }
+
+    .nisbutton {
+        flex-shrink: 0; /* Prevent buttons from shrinking */
+    }
+}
+
+// Modal styles
+.modal-freeze-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+
+    &.visible {
+        pointer-events: all;
+        opacity: 1;
+    }
+
+    .modal-content {
+        background: #2a3a42;
+        border: 2px solid #4a5a62;
+        border-radius: 10px;
+        padding: 20px;
+        min-width: 400px;
+        width: 80%;
+        max-width: 80%;
+        max-height: 80vh;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        cursor: default;
+
+        .nisheader {
+            margin: 0;
+            text-align: center;
+            color: #f1f1f1;
+        }
+
+        .rotation-textbox {
+            width: 100%;
+            min-height: 200px;
+            padding: 10px;
+            border: 1px solid #4a5a62;
+            border-radius: 5px;
+            background: #1c2c34;
+            color: #f1f1f1;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            resize: vertical;
+            box-sizing: border-box;
+
+            &:focus {
+                outline: none;
+                border-color: #6a7a82;
+            }
+        }
+
+        .rotation-controls {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+    }
+}

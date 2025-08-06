@@ -1,0 +1,129 @@
+{
+  "patches": [
+    {
+      "version": "1.0.0",
+      "description": "Initial release of the application.",
+      "changes": [
+        "Added core functionality."
+      ]
+    },
+    {
+      "version": "2.0.0",
+      "description": "Moved to a typescript code base and implemented an overlay.",
+      "changes": [
+        "Refactored codebase to TypeScript.",
+        "Implemented overlay for better user experience.",
+        "Introduced Settings section to manage the overlay based on user preference",
+        "made the rotation details collapsable so it can be hidden when not being edited",
+        "Fixed minor bugs from previous version."
+      ]
+    },
+    {
+      "version": "2.0.1",
+      "description": "Optimisation and Bug Fixes",
+      "changes": [
+        "Optimisied the UI to reduce the lag.",
+        "Fixed bugs related to overlay rendering.",
+        "Updated the main header to be more unique to this app",
+        "Fixed a bug with saving rotation names being null"
+      ]
+    },
+    {
+      "version": "2.1.0",
+      "description": "Added patch notes.",
+      "changes": [
+        "Introduced patch notes feature to keep users informed about updates.",
+        "Automatically view patch notes if the system detects a new version"
+      ]
+    },
+    {
+      "version": "2.1.1",
+      "description": "Correct patch notes.",
+      "changes": [
+        "Corrected a typo in the 2.1.0 changes.",
+        "Added a show patch notes button so that all patch notes can be viewed",
+        "Ordered patch notes in descending order so that newer versions come first"
+      ]
+    },
+    {
+      "version": "2.1.2",
+      "description": "Add Action Bug Fix.",
+      "changes": [
+        "The add action button wasn't working, sorry! it's fixed now."
+      ]
+    },
+    {
+      "version": "2.2.0",
+      "description": "Allow multiple rotations per set for easy cycling between phases",
+      "changes": [
+        "Rotations are now saved in sets, the sets will contain one or many rotations! This means you can have a rotation for each phase of a boss, or just for convenience.",
+        "Added the ability to have multiple rotations per set.",
+        "Overlay now shows the selected rotation, and can cycle to the next rotation by pressing the main alt1 keybind (default is alt + 1).",
+        "Updated the UI to accommodate multiple rotations.",
+        "Moved the close button on this patch notes window to the top right corner so that it is more consistent with other windows."
+      ]
+    },
+    {
+      "version": "2.2.1",
+      "description": "Patch - Fixed a bug with switching to old rotations",
+      "changes": [
+        "Added functionality to enable users to switch to an older rotation set, which was saved in the old data format."
+      ]
+    },
+    {
+      "version": "2.2.2",
+      "description": "Discord Server",
+      "changes": [
+        "This isn't really much of a function change, but I have created a discord server for people to hop on and share rotations and feedback!",
+        "Added a button on the bottom of the settings section with a link to the discord server"
+      ]
+    },
+    {
+      "version": "2.2.3",
+      "description": "Better Buff Bars Compatability Fix",
+      "changes": [
+        "Fixed a bug that was causing the overlays to flicker when using the Better Buff Bars addon at the same time."
+      ]
+    },
+    {
+      "version": "2.3.0",
+      "description": "Better Rotation Notation! This is a major version increment so there may be bugs (hopefully not too many), if you do find any please feel free to come bother me on the discord about them.",
+      "changes": [
+        "Introduce separator selector and notes input for each dropdown. This allows for more complex rotations to be created, such as those where you need to press 2 abilities at the same time!",
+        "Notes, added the ability to add a note to each ability which is shown in the overlay over the image",
+        "Separator and notes are saved/loaded with rotations and shown in the preview, Default separator is '→', notes default to null"
+      ]
+    },
+    {
+      "version": "2.3.1",
+      "description": "Bug Fixes and Quality of Life Improvements",
+      "changes": [
+        "Added 'tc' to the list of separators to allow for better notation of rotations that require a target cycle.",
+        "Added '↵'(new line) options to allow you to mark that you want a certain ability to be at the start of a line.",
+        "Resolved a bug with deleting rotations."
+      ]
+    },
+    {
+      "version": "2.4.0",
+      "description": "Copying Rotations as Text",
+      "changes": [
+        "Added an edit rotation button. which opens a new popup. In this popup you can paste a rotation from PVME.",
+        "filter by Emoji names eg 'gconc'"
+      ]
+    },
+    {
+        "version": "3.0.0",
+        "description": "Angular Migration - This is a major version increment as it is a complete rewrite of the codebase. But it comes with some great QOL improvements and new features!",
+        "changes": [
+          "Migrated the codebase to Angular.",
+          "Updated dependencies and fixed any breaking changes.",
+          "Refactored components to follow Angular best practices for easier maintenance and scalability.",
+          "Added drag and drop functionality for rotation sets, allowing users to easily reorder their rotations.",
+          "Implemented lazy loading for rotation sets to improve initial load time.",
+          "Added a label overlay feature that displays the rotation name on the overlay when first switching to the rotation.",
+          "Updated UI buttons to make more use of symbols and icons for a cleaner look."
+        ]
+    }
+
+  ]
+}

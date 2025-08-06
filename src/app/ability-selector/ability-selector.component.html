@@ -1,0 +1,54 @@
+<div class="dropdown-container">
+  <select
+    class="nisinput separator-selector"
+    [(ngModel)]="abilitySelection.Separator"
+    (ngModelChange)="onSeparatorChange($event)"
+    [disabled]="isFirst"
+    [style.visibility]="isFirst ? 'hidden' : 'visible'"
+    >
+    @for (sep of separators; track sep) {
+      <option [value]="sep">{{ sep || '(none)' }}</option>
+    }
+  </select>
+
+  <rm-search-dropdown
+    [items]="abilities"
+    [selectedAbility]="abilitySelection.SelectedAbility"
+    (afterChange)="onAbilityChange($event)"
+  ></rm-search-dropdown>
+
+  <div class="ability-image-container">
+    @if (abilitySelection.SelectedAbility) {
+      <img
+        class="ability-image"
+        [src]="abilitySelection.SelectedAbility.Src"
+        [alt]="abilitySelection.SelectedAbility.Emoji"
+        />
+    }
+  </div>
+
+  <input
+    type="text"
+    class="nisinput ability-notes-input"
+    [(ngModel)]="abilitySelection.Notes"
+    (ngModelChange)="onNotesChange($event)"
+    />
+
+  <button
+    class="nisbutton copy-button"
+    (click)="copy.emit()"
+    title="Copy Ability"
+    [disabled]="!abilitySelection.SelectedAbility"
+    >
+    <i class="fa-solid fa-copy"></i>
+  </button>
+
+  <button
+    class="nisbutton delete-button"
+    (click)="delete.emit()"
+    title="Delete Ability Selection"
+    [disabled]="isOnly"
+    >
+    <i class="fas fa-trash-alt"></i>
+  </button>
+</div>

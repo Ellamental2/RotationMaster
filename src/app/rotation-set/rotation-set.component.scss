@@ -1,0 +1,70 @@
+.nisbutton {
+  width: auto; /* Button width adjusts to its content */
+  display: inline-flex; /* Ensures proper alignment of content */
+  justify-content: center; /* Centers the content horizontally */
+  align-items: center; /* Centers the content vertically */
+  text-align: center; /* Centers text or symbols */
+}
+
+// Loading overlay
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  .loading-spinner {
+    background: #2a3a42;
+    border: 2px solid #4a5a62;
+    border-radius: 10px;
+    padding: 30px;
+    text-align: center;
+    color: #ccc;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    
+    i {
+      font-size: 2rem;
+      margin-bottom: 15px;
+      color: #ccc;
+    }
+    
+    p {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+  }
+}
+
+.example-box:last-child {
+  border: none;
+}
+
+#addRotationContainerButton {
+  width: 200px;
+}
+
+.rotation-controls {
+  display: flex;
+  align-items: center; // Vertically center all children
+  gap: 2px; // Optional: adds spacing between items
+
+
+  button {
+    width: 60px;
+  }
+
+  select {
+    width: 200px;
+    min-width: 200px;
+    max-width: 200px;
+    padding: 0 !important;
+    margin: 1px;
+  }
+}

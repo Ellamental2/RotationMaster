@@ -1,0 +1,17 @@
+<div id="patch-notes-container" *ngIf="visible">
+    <h2>Patch Notes</h2>
+    <div id="patch-notes-content">
+    <ul>
+        <li class="version-patch" *ngFor="let patch of patchNotes">
+            <h2>Version: {{ patch.version }}</h2>
+            <p>{{ patch.description }}</p>
+            <ul>
+                <li *ngFor="let change of patch.changes">
+                    {{ change }}
+                </li>
+            </ul>
+            <hr style="margin: 20px 0; border: 1px solid #ccc" />
+        </li>
+    </ul>
+    <button id="close-patch-notes" class="nisbutton" (click)="close.emit()">Close</button>
+</div>

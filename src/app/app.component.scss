@@ -1,0 +1,86 @@
+.nismainborder{
+    width: 100vw; // Full width of the viewport
+    height: 100vh; // Full height of the viewport
+    display: flex; // Flexbox for layout
+    flex-direction: column;
+    justify-content: flex-start; /* Align content to the top */
+    align-items: stretch; /* Stretch children to fill horizontal space */
+    box-sizing: border-box; /* Include padding and border in height calculations*/
+    overflow-y: auto;
+    overflow-x: hidden; // Hide horizontal scrollbar
+    // Optional: stack children vertically
+    justify-content: stretch; // Stretch children to fill vertical space
+    align-items: stretch; // Stretch children to fill horizontal space
+
+    #RotationMaster {
+        width: 100%;
+        text-align: center;
+        height: auto; /* Ensure it grows with content */
+        text-align: center;
+        padding: 1rem;    
+    }
+
+    .mainHeader {
+        display: flex;
+        justify-content: center; /* Center horizontally */
+        align-items: center; /* Center vertically */
+        //height: 100%; /* Ensure it takes up the full height of the parent */
+
+        .fox-image {
+            width: 5rem;
+        }
+
+        #Title {
+            color: #ffcb05;
+            text-shadow: 1px 1px #000000;
+        }
+    }
+
+
+    .footer {
+        display: flex;
+        justify-content: center; /* Center links horizontally */
+        align-items: center;
+        margin-left: auto;
+        margin-right: auto;
+
+        .subtle-link {
+            color: #888;
+            text-decoration: none; /* Removes underline */
+            font-size: 10px; /* Adjust font size */
+            margin: 20px;
+
+            &:hover {
+                text-decoration: underline; /* Adds underline on hover */
+                color: #f1f1f1;
+            }
+        }
+    }
+
+    #OverlayCanvasOutput {
+        display: none;
+    }
+
+    #showPatchNotesButton {
+        margin-left: auto;
+        margin-right: auto;
+        display: block; /* Needed for non-block elements */
+    }
+
+    .nisbutton {
+        flex-shrink: 0; /* Prevent buttons from shrinking */
+    }
+
+    .nisdropdown {
+        height: 20px;
+        flex: 1; /* Allow the dropdown to grow and take up available space */
+        min-width: 150px; /* Set a minimum width for the dropdown */
+    }
+}
+
+.fullscreen {
+    padding:10px;
+    padding-top:20px;
+    width: 100%; // Ensure it stretches within the parent
+    height: 100%; // Ensure it stretches within the parent
+}

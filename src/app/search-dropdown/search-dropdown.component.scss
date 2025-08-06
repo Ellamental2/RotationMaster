@@ -1,0 +1,111 @@
+$offset: 1px;
+.search-dropdown {
+    position: relative;
+    user-select: none;
+    font-family:sans-serif;
+    font-size:13px;
+    width: 400px;
+    $self: &;
+    color: #B1AFAE;
+    box-sizing:border-box; 
+    #{$self}__btn {
+        position: relative;
+        background:linear-gradient(to bottom, #191714,#292222,#100C0C);
+        height: 20px - $offset;
+        line-height: 20px - $offset;
+        padding: 0px 10px;
+        border: 1px solid #514949;
+        cursor: pointer;
+        &:before {
+            content: "";
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid #999;
+        }
+        span{
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 90%;
+        }
+    }
+    #{$self}__dropdown {
+        position: absolute;
+        top: 100%;
+        left: 0px;
+        // width: 100%;
+        width: 100%;
+        padding: 0px 0px;
+        background:linear-gradient(to bottom, #191714,#292222,#100C0C);
+        border: 1px solid #ccc;
+        margin-top: -1px;
+        z-index: 9999;
+        box-sizing: border-box;
+        transition: all 0.3s ease;
+        opacity: 0;
+        visibility: hidden;
+        box-shadow: 0px 6px 12px rgba(black, 0.1);
+        &__search {
+            width: 100%;
+            padding: 5px 10px;
+            line-height: 20px;
+            color:#B1AFAE;
+            background: linear-gradient(to bottom, #191714,#292222,#100C0C);
+            border: 0px;
+            border-bottom: 1px solid #B1AFAE;
+            box-sizing: border-box;
+            outline: none;
+        }
+        &__scroller {
+            max-height: 150px;
+            overflow-y: auto;
+            cursor: pointer;
+        }
+        &__item {
+            position: relative;
+            height: 20px;
+            line-height: 20px;
+            padding: 0px 2px;
+            padding-left: 50px;
+            text-transform: capitalize;
+            border-bottom: 1px solid #B1AFAE;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            &:last-child {
+                border-bottom: 0px;
+            }
+            &:hover {
+                background:linear-gradient(to bottom, #28231f,#3a2f2f,#241818);
+                cursor: pointer;
+            }
+        }
+        &__msg {
+            padding: 5px 10px;
+            text-align: center;
+        }
+    }
+    &.open {
+        #{$self}__btn {
+        &:before {
+            border-top: 0px;
+            border-bottom: 5px solid #999;
+        }
+        }
+        #{$self}__dropdown {
+        opacity: 1;
+        visibility: visible;
+        }
+    }
+    &.small {
+        #{$self}__btn {
+        height: 32px - $offset;
+        line-height: 32px - $offset;
+        }
+    }
+}

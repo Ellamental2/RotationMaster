@@ -1,0 +1,70 @@
+<!-- PatchNotes Component   -->
+<rm-patch-notes
+  [patchNotes]="patchNotes"
+  [visible]="patchNotesVisible"
+  (close)="hidePatchNotes()">
+</rm-patch-notes>
+
+<div id="output"></div>
+
+<div class="nismainborder fullscreen">
+  <div id="rotationMaster">
+    <!-- Header Section -->
+    <div class="mainHeader">
+      <img src="./assets/icon.png" alt="Fox" class="fox-image" id="fox-image">
+      <h1 id="Title">ROTATION MASTER</h1>
+      <img src="./assets/icon.png" alt="Fox" class="fox-image" id="fox-image">
+    </div>
+
+    <!-- Rotation Set Component -->
+    <rm-rotation-set
+      [abilitiesPerRow]="getSettingValue('abilitiesPerRow')"
+      [selectedRotationIndex]="selectedIndex"
+      (changeSelectedRotation)="onChangeSelectedRotation($event)"
+      (rotationSetChange)="onSelectedRotationSetChange($event)"
+    ></rm-rotation-set>
+
+    <hr style="margin: 20px 0; border: 1px solid #ccc" />
+
+    <!-- Settings Component -->
+    <rm-settings
+      [version]="version"
+      [settings]="rangeSettings()"
+      (updateSetting)="onUpdateSetting($event)"
+      (setOverlayPosition)="updateOverlayPosition()"
+    ></rm-settings>
+
+    <!-- Patch Notes Button -->
+    <button
+      id="showPatchNotesButton"
+      class="nisbutton"
+      (click)="showPatchNotes(true)"
+    >
+      Show Patch Notes
+    </button>
+     
+    <div id="ToggleOverlayButton" style="display:none !important;">🖼️</div>
+
+    <!-- Footer Section -->
+    <hr style="margin: 20px 0; border: 1px solid #ccc" />
+
+    <div class="footer">
+      <a href="https://patreon.com/IMEllamental?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="subtle-link">
+        <i class="fab fa-patreon"></i> Support on Patreon
+      </a>
+      <a href="https://discord.gg/3N6F3rppTC"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="subtle-link">
+        <i class="fab fa-discord"></i> Join us on Discord
+      </a>
+    </div>
+
+    <div id="OverlayCanvasOutput">
+      <canvas willReadFrequently="true" width="4000" height="4000"></canvas>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+<div id="Settings">
+  <h2>RotationMaster - v{{ version }} </h2>
+  <h2>Settings</h2>
+
+  <button class="nisbutton" (click)="setOverlayPosition.emit()">Set Overlay Position</button>
+
+  @for (setting of settings; track setting) {
+    <div class="setting">
+      @if (setting.type === 'range') {
+        <rm-range-setting
+          [setting]="setting"
+          (onUpdate)="updateSetting.emit({ name: setting.name, value: $event })"
+        ></rm-range-setting>
+      }
+    </div>
+  }
+</div>
