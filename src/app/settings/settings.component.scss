@@ -1,0 +1,19 @@
+#Settings{
+    display: flex; /* Use Flexbox for centering */
+    flex-direction: column; /* Optional: Stack children vertically */
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
+    padding: 1rem; /* Add some padding */
+
+    .setting{
+        margin: 0.5rem 0;
+    }
+
+    h2 {
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        text-align: center;
+        color: #ffcb05;
+        text-shadow: 1px 1px #000000;
+    }
+}

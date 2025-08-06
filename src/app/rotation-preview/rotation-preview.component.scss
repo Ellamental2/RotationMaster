@@ -1,0 +1,78 @@
+.rotation-preview {
+  margin: 15px auto 0 auto; /* Center horizontally, maintain top margin */
+  bottom: 10px;
+  left: 50%; /* Position at center */
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 10px;
+  width: fit-content; /* Fit to content width */
+  max-width: 100vw; /* Don't exceed viewport width */
+  min-width: fit-content; /* Remove fixed minimum width */
+  border-radius: 5px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column; /* Stack rows vertically */
+  align-items: flex-start; /* Align rows to the left */
+  gap: 5px; // Add spacing between images
+  
+  // Performance optimizations
+  will-change: transform; /* Hint to browser for GPU acceleration */
+  contain: layout style; /* CSS containment for better performance */
+  transform: translateZ(0); /* Force hardware acceleration */
+
+    .rotation-preview-row {
+        display: flex; /* Arrange images in a row */
+        align-items: center; /* Vertically align all items in the row */
+        gap: 5px; /* Add spacing between images */
+        margin-bottom: 3px; /* Add spacing between rows */
+        width: fit-content; /* Fit to content width */
+        flex-wrap: nowrap; /* Keep items in a single row */
+        
+        .row-spacer {
+            font-weight: bold;
+            margin-right: 5px; /* Add spacing between the prefix and the first image */
+            color: #F1F1F1; /* Adjust color as needed */
+            display: flex; /* Ensure the prefix aligns with the images */
+            align-items: center; /* Vertically align the prefix with the first image */
+            flex-shrink: 0; /* Prevent spacer from shrinking */
+        }
+
+        &:first-of-type .row-spacer:first-of-type {
+            display: none;
+        }
+         
+        .ability-image-container {
+            position: relative;
+            display: inline-block;
+            flex-shrink: 0; /* Prevent container from shrinking */
+
+            .ability-note {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                color: #fff;
+                background: rgba(0,0,0,0.5);
+                text-align: center;
+                pointer-events: none;
+                font-size: clamp(8px, 2vw, 8px); // Responsive font size
+                margin: 0;
+                padding: 2px 0;
+                overflow-wrap: break-word;
+                white-space: normal;
+            }
+
+            .ability-image {
+                width: 2rem; /* Set a fixed width for ability images */
+                height: 2rem; /* Set a fixed height for ability images */
+                display: block; /* Ensure consistent spacing */
+                
+                // Performance optimizations for images
+                image-rendering: -webkit-optimize-contrast; /* Better image rendering */
+                image-rendering: crisp-edges; /* Crisp edges for pixel art */
+                transform: translateZ(0); /* Force GPU acceleration */
+                will-change: transform; /* Hint for animations */
+            }
+        }
+    }
+}
+

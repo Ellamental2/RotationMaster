@@ -3,7 +3,7 @@
   "description": "Use for saving, sharing and viewing ability rotations",
   "appUrl": "./index.html",
   "configUrl": "./appconfig.json",
-  "iconUrl": "./icon.png",
+  "iconUrl": "./assets/icon.png",
   "defaultWidth": 750,
   "defaultHeight": 450,
   "minWidth": 750,

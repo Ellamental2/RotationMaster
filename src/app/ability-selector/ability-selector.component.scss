@@ -1,0 +1,48 @@
+.dropdown-container{
+  display: flex; /* Use Flexbox for layout */
+  align-items: center; /* Center items horizontally */
+  width: 100%; /* Full width of the parent */
+  box-sizing: border-box; /* Include padding in width calculations */
+}
+
+.ability-image-container
+{
+    width: 2rem; /* Set a fixed width for ability image container */
+    min-width: 2rem;
+    width: 2rem;
+    height: 2rem; /* Set a fixed height for ability image container */
+    overflow: hidden; /* Hide any overflow */
+
+    .ability-image {
+        max-width: 2rem; /* Set a fixed width for ability images */
+        max-height: 2rem; /* Set a fixed height for ability images */
+    }
+}
+
+.separator-selector {
+  width: 60px !important;
+  min-width: 60px !important;
+  max-width: 60px !important;
+  padding: 0 !important;
+
+  &>option{background:#1D190D;}
+}
+
+.ability-notes-input {
+  width: 100px !important;
+  min-width: 100px !important;
+  max-width: 100px !important;
+  padding: 0 !important;
+}
+
+.nisbutton.delete-button:disabled {
+    filter: saturate(0.3);
+}
+
+.nisbutton.copy-button {
+    margin-right: 5px;
+}
+
+.nisbutton.copy-button:disabled {
+    filter: saturate(0.3);
+}

@@ -1,0 +1,14 @@
+<div class="flex setting" id="container">
+    <label class="full" [for]="setting.name">{{ setting.description }}</label>
+    <input type="range"
+        [id]="setting.name"
+        [min]="setting.minValue" 
+        [max]="setting.maxValue"
+        [value]="setting.value" 
+        (change)="valueChanged($event)"
+        (input)="valueChanged($event)" />
+    <output
+        id="{{setting.name}}Output"
+        [for]="setting.name"
+    >{{setting.value}}{{setting.unit}}</output>
+</div>

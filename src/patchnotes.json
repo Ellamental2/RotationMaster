@@ -91,7 +91,7 @@
       "changes": [
         "Introduce separator selector and notes input for each dropdown. This allows for more complex rotations to be created, such as those where you need to press 2 abilities at the same time!",
         "Notes, added the ability to add a note to each ability which is shown in the overlay over the image",
-        "Seperator and notes are saved/loaded with rotations and shown in the preview, Default separator is '→', notes default to null"
+        "Separator and notes are saved/loaded with rotations and shown in the preview, Default separator is '→', notes default to null"
       ]
     },
     {
@@ -110,6 +110,19 @@
         "Added an edit rotation button. which opens a new popup. In this popup you can paste a rotation from PVME.",
         "filter by Emoji names eg 'gconc'"
       ]
+    },
+    {
+        "version": "3.0.0",
+        "description": "Angular Migration - This is a major version increment as it is a complete rewrite of the codebase. But it comes with some great QOL improvements and new features!",
+        "changes": [
+          "Migrated the codebase to Angular.",
+          "Updated dependencies and fixed any breaking changes.",
+          "Refactored components to follow Angular best practices for easier maintenance and scalability.",
+          "Added drag and drop functionality for rotation sets, allowing users to easily reorder their rotations.",
+          "Implemented lazy loading for rotation sets to improve initial load time.",
+          "Added a label overlay feature that displays the rotation name on the overlay when first switching to the rotation.",
+          "Updated UI buttons to make more use of symbols and icons for a cleaner look."
+        ]
     }
 
   ]

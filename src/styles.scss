@@ -1,0 +1,138 @@
+:root {
+  --brightness: 0.75;
+}
+
+html, body {
+  margin: 0; /* Remove default browser margins */
+  padding: 0; /* Remove default browser padding */
+  height: 100%; /* Ensure the body takes up the full viewport height */
+  box-sizing: border-box; /* Include padding and borders in dimensions */
+  
+  /* Performance optimizations */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeSpeed;
+  
+  /* Reduce layout thrashing */
+  contain: layout style;
+}
+
+#body {
+  display: block;
+  padding: 0 .5rem;
+  flex-direction: column;
+  margin: 0;
+}
+
+.nismainborder {
+    width: 100vw; // Full width of the viewport
+    height: 100vh; // Full height of the viewport
+    display: flex; // Flexbox for layout
+    flex-direction: column;
+    justify-content: flex-start; /* Align content to the top */
+    align-items: stretch; /* Stretch children to fill horizontal space */
+    box-sizing: border-box; /* Include padding and border in height calculations*/
+    overflow-y: auto;
+    overflow-x: hidden; // Hide horizontal scrollbar
+    // Optional: stack children vertically
+    justify-content: stretch; // Stretch children to fill vertical space
+    align-items: stretch; // Stretch children to fill horizontal space
+
+    .tracked-region {
+        li {
+            &::after{
+                display: block;
+                content: attr(data-time);
+                z-index: 3;
+                font-family: 'trajan-pro-3', sans-serif;
+                position: absolute;
+                left: 2px;
+                bottom: 0;
+                font-size: 10px;
+                color: #FFFFFF;
+                font-weight: 300;
+            }
+
+            &::before{
+                display: block;
+                content: attr(data-time);
+                z-index: 3;
+                font-family: 'trajan-pro-3', sans-serif;
+                position: absolute;
+                left: 3px;
+                bottom: -1px;
+                font-size: 10px;
+                color: #000000;
+                font-weight: 300;
+            }
+        }
+    }
+  
+    .nisinput {
+        flex: 1; /* Allow the input to grow and take up available space */
+        min-width: 75px; /* Set a minimum width for the input */
+    }
+
+    .nisdropdown {
+        height: 20px;
+        flex: 1; /* Allow the dropdown to grow and take up available space */
+        min-width: 150px; /* Set a minimum width for the dropdown */
+    }
+
+    .button-group {
+        display: flex; /* Keep buttons in a horizontal row */
+        gap: 5px; /* Add spacing between buttons */
+    }
+
+    .nisbutton {
+        flex-shrink: 0; /* Prevent buttons from shrinking */
+    }
+}
+
+.fullscreen {
+  width: 100%; // Ensure it stretches within the parent
+  height: 100%; // Ensure it stretches within the parent
+}
+
+.center-aligned {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    justify-self: center;
+    text-align: center; /* Center text inside children */
+}
+
+.cdk-drag-preview {
+    border: none;
+    box-sizing: border-box;
+    border-radius: 4px;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    justify-self: center;
+    text-align: center; /* Center text inside children */
+}
+
+.cdk-drag-placeholder {
+    opacity: 0;
+}
+
+.cdk-drag-animating {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+// Drag cursor behavior - only show move cursor when actively dragging
+.drag-list {
+    .drag-item {
+        &:last-child {
+            border: none;
+        }
+    }
+}
+
+.drag-list.cdk-drop-list-dragging .drag-item:not(.cdk-drag-placeholder) {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}

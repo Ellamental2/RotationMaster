@@ -1,0 +1,114 @@
+<div class="rotation-container center-aligned">
+  <div class="rotation-label">
+    <input
+      type="radio"
+      name="rotationSelector"
+      [value]="rotation.Id"
+      [checked]="isSelected"
+      (change)="onRotationSelected()"
+      />
+    <input
+      type="text"
+      class="nisinput rotation-name-input"
+      [(ngModel)]="rotation.Name"
+      placeholder="Rotation Name"
+      (input)="onRotationChange()"
+      />
+    @if (showDetails) {
+      <button
+        class="nisbutton"
+        (click)="showDetails = false"
+        title="Hide Rotation Details"
+        >
+        <i class="fa-solid fa-eye-slash"></i>
+      </button>
+    }
+    @if (!showDetails) {
+      <button
+        class="nisbutton"
+        (click)="onShowDetails()"
+        title="Show Rotation Details"
+        >
+        <i class="fa-solid fa-eye-slash"></i>
+      </button>
+    }
+  </div>
+
+  <!-- preview -->
+  <rm-rotation-preview
+    [AbilitySelections]="rotation.Data"
+    [abilitiesPerRow]="abilitiesPerRow"
+    [index]="rotationIndex"
+  ></rm-rotation-preview>
+
+  @if (showDetails) {
+    <div class="rotation-details center-aligned">
+      <!-- AbilitySelections -->
+      <div
+        class="drag-list"
+        id="ability-selections"
+        cdkDropList
+        (cdkDropListDropped)="drop($any($event))"
+        >
+        @for (ability of rotation.Data; track ability; let i = $index) {
+          <div
+            class="drag-item"
+            cdkDrag
+            >
+            <rm-ability-selector
+              [abilitySelection]="ability"
+              [abilities]="abilities"
+              [isFirst]="i === 0"
+              [isOnly]="rotation.Data.length === 1"
+              (abilitySelectionChange)="onAbilitySelectionChange($event, i)"
+              (delete)="onDeleteAbilitySelection(i)"
+              (copy)="onCopyAbilitySelection(i)"
+            ></rm-ability-selector>
+          </div>
+        }
+      </div>
+      <!-- Controls -->
+      <div class="dropdown-controls">
+        <button
+          class="nisbutton"
+          (click)="addAbilitySelection()"
+          >
+          Add Ability
+        </button>
+        <button
+          class="nisbutton"
+          title="edit rotation as PVME discord Emojis"
+          (click)="showEditModal()"
+          >
+          <i class="fa-solid fa-code"></i>
+        </button>
+        <button
+          class="nisbutton delete-rotation-button"
+          title="Delete Rotation"
+          (click)="onDelete()"
+          >
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </div>
+    </div>
+  }
+
+</div>
+
+<!-- String Edit Modal -->
+<div class="modal-freeze-overlay" [class.visible]="isEditModalVisible" (click)="closeEditModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h3 class="nisheader">Edit Rotation: {{ rotation.Name }}</h3>
+    
+    <textarea 
+      class="rotation-textbox"
+      [(ngModel)]="rotationTextValue"
+      placeholder="Enter rotation string..."
+    ></textarea>
+    
+    <div class="rotation-controls">
+      <button class="nisbutton" (click)="saveRotationEdit()">Save</button>
+      <button class="nisbutton" (click)="closeEditModal()">Cancel</button>
+    </div>
+  </div>
+</div>

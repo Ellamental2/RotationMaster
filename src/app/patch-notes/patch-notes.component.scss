@@ -1,0 +1,37 @@
+#patch-notes-container {
+    position: fixed; /* Use fixed to center it relative to the viewport */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the container */
+    width: 80%; /* Take up 80% of the viewport width */
+    max-height: 80%; /* Limit the height to 80% of the viewport */
+    background: black;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    padding: 20px;
+    border-radius: 8px;
+    overflow: auto; /* Enable scrolling if content overflows */
+
+    #patch-notes-content {
+        max-height: calc(100% - 50px); /* Ensure content fits within the container */
+        overflow-y: auto; /* Add vertical scrolling for content */
+        overflow-x: auto; /* Add horizontal scrolling for content */
+
+        .version-patch{
+            list-style-type: none;
+            padding-left: 0;
+        }
+    }
+
+    #close-patch-notes {
+        position: absolute;
+        top: 15px;
+        right: 10px;
+        cursor: pointer;
+        z-index: 1;
+        padding: 0;
+        line-height: 1;
+        width: 110px;
+    }
+}

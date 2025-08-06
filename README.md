@@ -27,8 +27,7 @@ Then when you are happy you can position the overlay as you wish with the set ov
 You can cycle between rotations by pressing the main alt1 keybind (default alt + 1)
 
 ## Future Aims for the project:
-- Update the filter and dropdown to be one single control, to improve user experience.
-- With the help of the [PVME Discord](https://discord.gg/pvme) I indent to populate some default rotations for popular bosses/loadouts and have them available in the app.
+- ~~Update the filter and dropdown to be one single control, to improve user experience.~~
   
 ## Long term goals:
 - If this project proves popular enough I will look at updating it to have dynamic cheat sheets so that once you activate an ability it fades slightly from the cheatsheet and highlights the next ability slightly.

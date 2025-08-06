@@ -1,0 +1,30 @@
+@if (showPreview()) {
+  <div
+    class="rotation-preview"
+    [id]="'rotation-preview-' + index"
+    >
+    @for (row of getAbilityRows(); track trackByRowIndex($index, row)) {
+      <div class="rotation-preview-row">
+        @for (selection of row; track trackByAbilitySelection($index, selection)) {
+          @if (selection.SelectedAbility) {
+            <span class="row-spacer">{{ selection.Separator }}</span>
+            <span class="ability-image-container">
+              <img
+                class="ability-image"
+                [src]="selection.SelectedAbility.Src"
+                [alt]="selection.SelectedAbility.Title"
+                [title]="selection.SelectedAbility.Emoji"
+                loading="lazy"
+                />
+              @if (selection.Notes) {
+                <p class="ability-note">
+                  {{ selection.Notes }}
+                </p>
+              }
+            </span>
+          }
+        }
+      </div>
+    }
+  </div>
+}
