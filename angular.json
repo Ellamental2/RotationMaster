@@ -17,9 +17,7 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
-            "outputPath": {
-              "base": "dist/rotation-master"
-            },
+            "outputPath": "docs",
             "index": "src/index.html",
             "polyfills": [
               "zone.js"
@@ -35,7 +33,12 @@
               "src/styles.scss"
             ],
             "scripts": [],
-            "browser": "src/main.ts"
+            "browser": "src/main.ts",
+            "externalDependencies": [
+              "canvas",
+              "sharp",
+              "detect-libc"
+            ]
           },
           "configurations": {
             "production": {
