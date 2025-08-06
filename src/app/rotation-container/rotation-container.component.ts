@@ -79,6 +79,7 @@ export class RotationContainerComponent implements OnDestroy {
   onShowDetails(): void {
     this.loading.emit(true);
     this.focusOnRotation.emit(this.rotation.Id);
+    this.showDetails = true;
     this.loading.emit(false);
   }
 
