@@ -155,6 +155,20 @@
       "changes": [
         "Updated available abilities to be in line with the new combat changes."
       ]
+    },
+    {
+      "version": "3.2.0",
+      "description": "Performance overhaul for large rotations, plus new PVME ability and gear icons.",
+      "changes": [
+        "Large rotations should now feel much snappier when adding, editing, copying, or reordering abilities.",
+        "Ability dropdowns only load the list when opened, use virtual scrolling, and only one dropdown stays open at a time.",
+        "Preview and overlay no longer rebuild the whole UI on every small edit. Overlay recapture is cached until the selected rotation actually changes.",
+        "Running the app in a normal browser (localhost) no longer starts the Alt1 overlay loop, so you can test rotations without that extra lag.",
+        "Synced new icons from PVME: combat variants (Penance/Vampyrism aspects, caroming, lunging, igneous Deadshot), Masterwork ranged, Superior seasinger/Death Lotus/Tetsu, blood necklaces, Necromancy Basic, Death Spark (charging), and more.",
+        "Added a Blank space option at the top of the ability list. It occupies the same size as a normal ability so you can skip a line or leave a gap in the overlay. Search for blank, space, or spacer.",
+        "Fixed Ctrl+C in text fields duplicating the ability instead of only copying the selected text.",
+        "Re-downloaded post-combat ability icons from PVME so new abilities (Deadshot, Sunshine, gconc, Chain, etc.) no longer share the old pre-rework artwork."
+      ]
     }
 
   ]

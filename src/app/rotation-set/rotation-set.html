@@ -115,10 +115,10 @@
     <!-- Show only the selected rotation in preview mode -->
     @if (rotationSet.Data[selectedRotationIndex]) {
       <rm-rotation-container
-        class="center-aligned"
         [rotation]="rotationSet.Data[selectedRotationIndex]"
         [abilities]="allAbilities"
         [abilitiesPerRow]="abilitiesPerRow"
+        [lineBreakSpacing]="rotationSet.lineBreakSpacing"
         [isSelected]="true"
         [rotationIndex]="selectedRotationIndex"
         [showDetails]="getRotationDetailsVisibility(rotationSet.Data[selectedRotationIndex].Id)"
@@ -137,10 +137,10 @@
       @for (rotation of rotationSet.Data; track trackByRotationId($index, rotation); let i = $index) {
         <div class="drag-item" cdkDrag [cdkDragDisabled]="isAnyModalOpen">
           <rm-rotation-container
-            class="center-aligned"
             [rotation]="rotation"
             [abilities]="allAbilities"
             [abilitiesPerRow]="abilitiesPerRow"
+            [lineBreakSpacing]="rotationSet.lineBreakSpacing"
             [isSelected]="selectedRotationIndex === i"
             [rotationIndex]="i"
             [showDetails]="getRotationDetailsVisibility(rotation.Id)"

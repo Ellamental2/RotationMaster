@@ -1,5 +1,12 @@
 [
   {
+    "Title": "blankspace",
+    "Src": "./assets/resource/abilities/blankspace.png",
+    "Emoji": "Blank space",
+    "EmojiId": "blankspace",
+    "Category": "Layout"
+  },
+  {
     "Title": "abyssalorb",
     "Src": "./assets/resource/abilities/abyssalorb.webp",
     "Emoji": "Abyssal orb",
@@ -15041,5 +15048,404 @@
     "Emoji": "Varanus's Mercy",
     "EmojiId": "1448697873603498045",
     "Category": "Uncategorised"
+  },
+  {
+    "Title": "arcanebloodnecklace",
+    "Src": "./assets/resource/abilities/arcanebloodnecklace.webp",
+    "Emoji": "Arcane blood necklace",
+    "EmojiId": "1534423189713715281",
+    "Category": "Magic Gear"
+  },
+  {
+    "Title": "supseasingeraonori",
+    "Src": "./assets/resource/abilities/supseasingeraonori.webp",
+    "Emoji": "Superior seasinger aonori",
+    "EmojiId": "1501857227399761950",
+    "Category": "Magic Gear"
+  },
+  {
+    "Title": "supseasingerasari",
+    "Src": "./assets/resource/abilities/supseasingerasari.webp",
+    "Emoji": "Superior seasinger asari",
+    "EmojiId": "1501858266282721434",
+    "Category": "Magic Gear"
+  },
+  {
+    "Title": "supseasingershood",
+    "Src": "./assets/resource/abilities/supseasingershood.webp",
+    "Emoji": "Superior seasinger's hood",
+    "EmojiId": "1501855836119761068",
+    "Category": "Magic Gear"
+  },
+  {
+    "Title": "supseasingersrobebottom",
+    "Src": "./assets/resource/abilities/supseasingersrobebottom.webp",
+    "Emoji": "Superior seasinger's robe bottom",
+    "EmojiId": "1501856916861751357",
+    "Category": "Magic Gear"
+  },
+  {
+    "Title": "supseasingersrobetop",
+    "Src": "./assets/resource/abilities/supseasingersrobetop.webp",
+    "Emoji": "Superior seasinger's robe top",
+    "EmojiId": "1501858060010913792",
+    "Category": "Magic Gear"
+  },
+  {
+    "Title": "penanceaspect",
+    "Src": "./assets/resource/abilities/penanceaspect.webp",
+    "Emoji": "Penance (aspect)",
+    "EmojiId": "1494069332584693810",
+    "Category": "Magic Abilities"
+  },
+  {
+    "Title": "vampyrismaspect",
+    "Src": "./assets/resource/abilities/vampyrismaspect.webp",
+    "Emoji": "Vampyrism (aspect)",
+    "EmojiId": "1494069423047442573",
+    "Category": "Magic Abilities"
+  },
+  {
+    "Title": "combustlunging",
+    "Src": "./assets/resource/abilities/combustlunging.webp",
+    "Emoji": "Combust (lunging)",
+    "EmojiId": "1478668627329683649",
+    "Category": "Magic Abilities"
+  },
+  {
+    "Title": "gchaincaroming",
+    "Src": "./assets/resource/abilities/gchaincaroming.webp",
+    "Emoji": "Greater Chain (caroming)",
+    "EmojiId": "1478668630265958471",
+    "Category": "Magic Abilities"
+  },
+  {
+    "Title": "chaincaroming",
+    "Src": "./assets/resource/abilities/chaincaroming.webp",
+    "Emoji": "Chain (caroming)",
+    "EmojiId": "1478668631700144271",
+    "Category": "Magic Abilities"
+  },
+  {
+    "Title": "farsightbloodnecklace",
+    "Src": "./assets/resource/abilities/farsightbloodnecklace.webp",
+    "Emoji": "Farsight blood necklace",
+    "EmojiId": "1534424164285415505",
+    "Category": "Ranged Gear"
+  },
+  {
+    "Title": "mwrbody",
+    "Src": "./assets/resource/abilities/mwrbody.webp",
+    "Emoji": "Masterwork ranged body",
+    "EmojiId": "1487224497391276082",
+    "Category": "Ranged Gear"
+  },
+  {
+    "Title": "mwrboots",
+    "Src": "./assets/resource/abilities/mwrboots.webp",
+    "Emoji": "Masterwork ranged boots",
+    "EmojiId": "1487224178829426941",
+    "Category": "Ranged Gear"
+  },
+  {
+    "Title": "mwrchaps",
+    "Src": "./assets/resource/abilities/mwrchaps.webp",
+    "Emoji": "Masterwork ranged chaps",
+    "EmojiId": "1487224419888664587",
+    "Category": "Ranged Gear"
+  },
+  {
+    "Title": "mwrcowl",
+    "Src": "./assets/resource/abilities/mwrcowl.webp",
+    "Emoji": "Masterwork ranged cowl",
+    "EmojiId": "1487224588621320296",
+    "Category": "Ranged Gear"
+  },
+  {
+    "Title": "mwrvambraces",
+    "Src": "./assets/resource/abilities/mwrvambraces.webp",
+    "Emoji": "Masterwork ranged vambraces",
+    "EmojiId": "1487224300963495966",
+    "Category": "Ranged Gear"
+  },
+  {
+    "Title": "nightmaregauntlets",
+    "Src": "./assets/resource/abilities/nightmaregauntlets.webp",
+    "Emoji": "Nightmare gauntlets",
+    "EmojiId": "513190159441723392",
+    "Category": "Ranged Gear"
+  },
+  {
+    "Title": "saradominbow",
+    "Src": "./assets/resource/abilities/saradominbow.webp",
+    "Emoji": "Saradomin bow",
+    "EmojiId": "1508822612049002627",
+    "Category": "Ranged Gear"
+  },
+  {
+    "Title": "supdeathlotuschaps",
+    "Src": "./assets/resource/abilities/supdeathlotuschaps.webp",
+    "Emoji": "Superior Death Lotus chaps",
+    "EmojiId": "1501860463087063050",
+    "Category": "Ranged Gear"
+  },
+  {
+    "Title": "supdeathlotuschestplate",
+    "Src": "./assets/resource/abilities/supdeathlotuschestplate.webp",
+    "Emoji": "Superior Death Lotus chestplate",
+    "EmojiId": "1501859722071117874",
+    "Category": "Ranged Gear"
+  },
+  {
+    "Title": "supdeathlotushood",
+    "Src": "./assets/resource/abilities/supdeathlotushood.webp",
+    "Emoji": "Superior Death Lotus hood",
+    "EmojiId": "1501860048819720243",
+    "Category": "Ranged Gear"
+  },
+  {
+    "Title": "supdeathlotustabi",
+    "Src": "./assets/resource/abilities/supdeathlotustabi.webp",
+    "Emoji": "Superior Death Lotus tabi",
+    "EmojiId": "1501861205008977950",
+    "Category": "Ranged Gear"
+  },
+  {
+    "Title": "supdeathlotustekoh",
+    "Src": "./assets/resource/abilities/supdeathlotustekoh.webp",
+    "Emoji": "Superior Death Lotus tekoh",
+    "EmojiId": "1501860964310716566",
+    "Category": "Ranged Gear"
+  },
+  {
+    "Title": "ricochetcaroming",
+    "Src": "./assets/resource/abilities/ricochetcaroming.webp",
+    "Emoji": "Ricochet (caroming)",
+    "EmojiId": "1478667142714101772",
+    "Category": "Ranged Abilities"
+  },
+  {
+    "Title": "deadshotigneous",
+    "Src": "./assets/resource/abilities/deadshotigneous.webp",
+    "Emoji": "Deadshot (igneous)",
+    "EmojiId": "1478667086615285770",
+    "Category": "Ranged Abilities"
+  },
+  {
+    "Title": "brawlersbloodnecklace",
+    "Src": "./assets/resource/abilities/brawlersbloodnecklace.webp",
+    "Emoji": "Brawler's blood necklace",
+    "EmojiId": "1534423392827080714",
+    "Category": "Melee Gear"
+  },
+  {
+    "Title": "suptetsubody",
+    "Src": "./assets/resource/abilities/suptetsubody.webp",
+    "Emoji": "Superior tetsu body",
+    "EmojiId": "1501850304927371355",
+    "Category": "Melee Gear"
+  },
+  {
+    "Title": "suptetsuhelm",
+    "Src": "./assets/resource/abilities/suptetsuhelm.webp",
+    "Emoji": "Superior tetsu helm",
+    "EmojiId": "1501850471852150855",
+    "Category": "Melee Gear"
+  },
+  {
+    "Title": "suptetsukogake",
+    "Src": "./assets/resource/abilities/suptetsukogake.webp",
+    "Emoji": "Superior tetsu kogake",
+    "EmojiId": "1501852418873495664",
+    "Category": "Melee Gear"
+  },
+  {
+    "Title": "suptetsukote",
+    "Src": "./assets/resource/abilities/suptetsukote.webp",
+    "Emoji": "Superior tetsu kote",
+    "EmojiId": "1501852087267364945",
+    "Category": "Melee Gear"
+  },
+  {
+    "Title": "suptetsuplatelegs",
+    "Src": "./assets/resource/abilities/suptetsuplatelegs.webp",
+    "Emoji": "Superior tetsu platelegs",
+    "EmojiId": "1501851862146617444",
+    "Category": "Melee Gear"
+  },
+  {
+    "Title": "vampyrismgloves",
+    "Src": "./assets/resource/abilities/vampyrismgloves.webp",
+    "Emoji": "Vampyrism gloves",
+    "EmojiId": "1487224784428335255",
+    "Category": "Melee Gear"
+  },
+  {
+    "Title": "rendgop",
+    "Src": "./assets/resource/abilities/rendgop.webp",
+    "Emoji": "Rend (Gloves of passage)",
+    "EmojiId": "1488133579614588948",
+    "Category": "Melee abilities"
+  },
+  {
+    "Title": "occultistsbloodnecklace",
+    "Src": "./assets/resource/abilities/occultistsbloodnecklace.webp",
+    "Emoji": "Occultist's blood necklace",
+    "EmojiId": "1534423579095990322",
+    "Category": "Necromancy Gear"
+  },
+  {
+    "Title": "deathsparkorsoulreave2",
+    "Src": "./assets/resource/abilities/deathsparkorsoulreave2.webp",
+    "Emoji": "Death Spark (charging)",
+    "EmojiId": "1502100068965285968",
+    "Category": "Necromancy abilities"
+  },
+  {
+    "Title": "necrobasic",
+    "Src": "./assets/resource/abilities/necrobasic.webp",
+    "Emoji": "Necromancy Basic",
+    "EmojiId": "1482849360462086244",
+    "Category": "Necromancy abilities"
+  },
+  {
+    "Title": "hatchetofbloomandblight",
+    "Src": "./assets/resource/abilities/hatchetofbloomandblight.webp",
+    "Emoji": "Hatchet of bloom and blight",
+    "EmojiId": "1529129033672167574",
+    "Category": "Other Gear"
+  },
+  {
+    "Title": "hatchetofemberandglade",
+    "Src": "./assets/resource/abilities/hatchetofemberandglade.webp",
+    "Emoji": "Hatchet of ember and glade",
+    "EmojiId": "1529131614867554405",
+    "Category": "Other Gear"
+  },
+  {
+    "Title": "chaoticgrimoire",
+    "Src": "./assets/resource/abilities/chaoticgrimoire.webp",
+    "Emoji": "Chaotic grimoire",
+    "EmojiId": "1503793164329156659",
+    "Category": "Auras and Pocket slot"
+  },
+  {
+    "Title": "eagleeye",
+    "Src": "./assets/resource/abilities/eagleeye.webp",
+    "Emoji": "Eagle Eye",
+    "EmojiId": "1534450943138205787",
+    "Category": "Prayers"
+  },
+  {
+    "Title": "incrediblereflexes",
+    "Src": "./assets/resource/abilities/incrediblereflexes.webp",
+    "Emoji": "Incredible Reflexes",
+    "EmojiId": "1534450888591147079",
+    "Category": "Prayers"
+  },
+  {
+    "Title": "lightform",
+    "Src": "./assets/resource/abilities/lightform.webp",
+    "Emoji": "Light Form",
+    "EmojiId": "1521959208952529067",
+    "Category": "Prayers"
+  },
+  {
+    "Title": "mysticmight",
+    "Src": "./assets/resource/abilities/mysticmight.webp",
+    "Emoji": "Mystic Might",
+    "EmojiId": "1534451011286990908",
+    "Category": "Prayers"
+  },
+  {
+    "Title": "rapidrestore",
+    "Src": "./assets/resource/abilities/rapidrestore.webp",
+    "Emoji": "Rapid Restore",
+    "EmojiId": "1506466035547504822",
+    "Category": "Prayers"
+  },
+  {
+    "Title": "hungrylikethewolf",
+    "Src": "./assets/resource/abilities/hungrylikethewolf.webp",
+    "Emoji": "Hungry Like the Wolf",
+    "EmojiId": "1516269344106086492",
+    "Category": "Relics"
+  },
+  {
+    "Title": "manuscriptofamascut",
+    "Src": "./assets/resource/abilities/manuscriptofamascut.webp",
+    "Emoji": "Manuscript of Amascut",
+    "EmojiId": "1504367470327238736",
+    "Category": "Consumables, Currencies, and Combat Support Items"
+  },
+  {
+    "Title": "tornchaoticpage",
+    "Src": "./assets/resource/abilities/tornchaoticpage.webp",
+    "Emoji": "Torn chaotic page",
+    "EmojiId": "1504366042707791934",
+    "Category": "Consumables, Currencies, and Combat Support Items"
+  },
+  {
+    "Title": "equilibriumcooldown",
+    "Src": "./assets/resource/abilities/equilibriumcooldown.webp",
+    "Emoji": "Equilibrium cooldown",
+    "EmojiId": "1499782738943803514",
+    "Category": "Invention Perks"
+  },
+  {
+    "Title": "ecliptic",
+    "Src": "./assets/resource/abilities/ecliptic.webp",
+    "Emoji": "Ecliptic component",
+    "EmojiId": "1480620316467400714",
+    "Category": "Invention Components and Gizmo Shells"
+  },
+  {
+    "Title": "manufacturedcomp",
+    "Src": "./assets/resource/abilities/manufacturedcomp.webp",
+    "Emoji": "Manufactured component",
+    "EmojiId": "1495031880964374688",
+    "Category": "Invention Components and Gizmo Shells"
+  },
+  {
+    "Title": "offcutcomp",
+    "Src": "./assets/resource/abilities/offcutcomp.webp",
+    "Emoji": "Offcut component",
+    "EmojiId": "1495031942918180974",
+    "Category": "Invention Components and Gizmo Shells"
+  },
+  {
+    "Title": "mammothpouch",
+    "Src": "./assets/resource/abilities/mammothpouch.webp",
+    "Emoji": "Pack mammoth pouch",
+    "EmojiId": "1499293961364308059",
+    "Category": "Summoning"
+  },
+  {
+    "Title": "tumekensfragment",
+    "Src": "./assets/resource/abilities/tumekensfragment.webp",
+    "Emoji": "Fragment of Tumeken",
+    "EmojiId": "1497247315835224116",
+    "Category": "Boss/NPCs"
+  },
+  {
+    "Title": "modestcrocodile",
+    "Src": "./assets/resource/abilities/modestcrocodile.webp",
+    "Emoji": "Modest crocodile demon",
+    "EmojiId": "1497224428101173489",
+    "Category": "Boss/NPCs"
+  },
+  {
+    "Title": "osseoushead",
+    "Src": "./assets/resource/abilities/osseoushead.webp",
+    "Emoji": "Osseous",
+    "EmojiId": "1521806141250732153",
+    "Category": "Boss/NPCs"
+  },
+  {
+    "Title": "houseteleportfree",
+    "Src": "./assets/resource/abilities/houseteleportfree.webp",
+    "Emoji": "House Teleport",
+    "EmojiId": "1534426786048249907",
+    "Category": "Teleports"
   }
 ]

@@ -1,15 +1,17 @@
 <div class="dropdown-container">
-  <select
-    class="nisinput separator-selector"
-    [(ngModel)]="abilitySelection.Separator"
-    (ngModelChange)="onSeparatorChange($event)"
-    [disabled]="isFirst"
-    [style.visibility]="isFirst ? 'hidden' : 'visible'"
-    >
-    @for (sep of separators; track sep) {
-      <option [value]="sep">{{ sep || '(none)' }}</option>
-    }
-  </select>
+  <div class="separator-slot">
+    <select
+      class="nisinput separator-selector"
+      [(ngModel)]="abilitySelection.Separator"
+      (ngModelChange)="onSeparatorChange($event)"
+      [disabled]="isFirst"
+      [style.visibility]="isFirst ? 'hidden' : 'visible'"
+      >
+      @for (sep of separators; track sep) {
+        <option [value]="sep">{{ sep || '(none)' }}</option>
+      }
+    </select>
+  </div>
 
   <rm-search-dropdown
     [items]="abilities"
@@ -17,8 +19,8 @@
     (afterChange)="onAbilityChange($event)"
   ></rm-search-dropdown>
 
-  <div class="ability-image-container">
-    @if (abilitySelection.SelectedAbility) {
+  <div class="ability-image-container" [class.ability-blank-slot]="isBlankSpacer(abilitySelection.SelectedAbility)">
+    @if (abilitySelection.SelectedAbility && !isBlankSpacer(abilitySelection.SelectedAbility)) {
       <img
         class="ability-image"
         [src]="abilitySelection.SelectedAbility.Src"
@@ -37,7 +39,7 @@
   <div class="button-dropdown">
     <button
       class="nisbutton copy-button"
-      (click)="copy.emit('end')"
+      (click)="copyAbility.emit('end')"
       (contextmenu)="$event.preventDefault(); copyMenuVisible = !copyMenuVisible"
       title="Copy Ability (Right-click for more options)"
       [disabled]="!abilitySelection.SelectedAbility"
@@ -47,10 +49,10 @@
     
     <!-- Context Menu -->
     <div class="copy-context-menu" *ngIf="copyMenuVisible" (mouseleave)="copyMenuVisible = false">
-      <button class="context-menu-item" (click)="copy.emit('after'); copyMenuVisible = false">
+      <button class="context-menu-item" (click)="copyAbility.emit('after'); copyMenuVisible = false">
         <i class="fa-solid fa-arrow-right"></i> Copy Here
       </button>
-      <button class="context-menu-item" (click)="copy.emit('end'); copyMenuVisible = false">
+      <button class="context-menu-item" (click)="copyAbility.emit('end'); copyMenuVisible = false">
         <i class="fa-solid fa-arrow-down"></i> Copy to End
       </button>
     </div>

@@ -1,32 +1,36 @@
 <div
   class="search-dropdown"
-  [ngClass]="{'open':shown && list !== undefined && list.length !== 0}">
+  [ngClass]="{'open': shown}">
   <div
     class="search-dropdown__btn"
     (click)="show()"
     >
     <span>{{value | titlecase}}</span>
   </div>
-  <div class="search-dropdown__dropdown">
-    <input
-      class="search-dropdown__dropdown__search"
-      type="text"
-      placeholder="Search"
-      [(ngModel)]="keyword"
-      (keyup)="search(keyword)"
-      #input
-      />
-    <div class="search-dropdown__dropdown__scroller">
-      @for (item of list; track item) {
-        <div
-          class="search-dropdown__dropdown__item"
-          (click)="select(item)">
-          {{item.Emoji | titlecase}}
-        </div>
-      }
-      @if (list.length == 0) {
+  @if (shown) {
+    <div class="search-dropdown__dropdown">
+      <input
+        class="search-dropdown__dropdown__search"
+        type="text"
+        placeholder="Search"
+        [(ngModel)]="keyword"
+        (keyup)="search(keyword)"
+        #input
+        />
+      @if (list.length > 0) {
+        <cdk-virtual-scroll-viewport
+          [itemSize]="itemSize"
+          class="search-dropdown__dropdown__scroller">
+          <div
+            *cdkVirtualFor="let item of list; trackBy: trackByAbility"
+            class="search-dropdown__dropdown__item"
+            (click)="select(item)">
+            {{item.Emoji | titlecase}}
+          </div>
+        </cdk-virtual-scroll-viewport>
+      } @else {
         <div class="search-dropdown__dropdown__msg">No Result Found</div>
       }
     </div>
-  </div>
+  }
 </div>

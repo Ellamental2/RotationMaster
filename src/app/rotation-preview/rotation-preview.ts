@@ -1,78 +1,81 @@
-import { Component, Input, TrackByFunction } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, TrackByFunction } from '@angular/core';
 import { Ability, AbilitySelection } from '../../models';
+import { isBlankSpacer } from '../../abilitiesLookup';
+
+interface PreviewRow {
+  selections: AbilitySelection[];
+  fromLineBreak: boolean;
+}
 
 @Component({
     selector: 'rm-rotation-preview',
     templateUrl: './rotation-preview.html',
-    styleUrls: ['./rotation-preview.scss']
+    styleUrls: ['./rotation-preview.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RotationPreview {
+export class RotationPreview implements OnChanges {
   @Input() AbilitySelections: AbilitySelection[] = [];
   @Input() abilitiesPerRow: number = 10;
+  @Input() lineBreakSpacing: number = 0;
   @Input() index: number = 0;
+  @Input() revision: number = 0;
 
-  getAbilityRows(): AbilitySelection[][] {
-    return this.calculateAbilityRows();
+  abilityRows: PreviewRow[] = [];
+  hasPreview = false;
+
+  get lineBreakExtraGap(): string {
+    const t = Math.min(100, Math.max(0, Number(this.lineBreakSpacing) || 0)) / 100;
+    return `calc((2rem - 8px) * ${t})`;
   }
 
-  private calculateAbilityRows(): AbilitySelection[][] {
-    // convert AbilitySelections into an array of ability-rows
-    let abilityRows: AbilitySelection[][] = [];
+  ngOnChanges(_changes: SimpleChanges): void {
+    this.abilityRows = this.calculateAbilityRows();
+    this.hasPreview = this.abilityRows.some(row => row.selections.some(sel => !!sel.SelectedAbility));
+  }
+
+  private calculateAbilityRows(): PreviewRow[] {
+    const abilityRows: PreviewRow[] = [{ selections: [], fromLineBreak: false }];
     let currentRow = 0;
     let itemsInCurrentRow = 0;
 
-    // Initialize the first row
-    abilityRows.push([]);
-
-    for(let i = 0; i < this.AbilitySelections.length; i++) {
+    for (let i = 0; i < this.AbilitySelections.length; i++) {
       const selection = this.AbilitySelections[i];
-      
-      // Check if we need to start a new row due to newline separator
-      if (selection.Separator.includes('↵')) {
-        // If the current row is not empty, start a new row
+
+      if (selection.Separator?.includes('↵')) {
         if (itemsInCurrentRow > 0) {
-          abilityRows.push([]);
+          abilityRows.push({ selections: [], fromLineBreak: true });
           currentRow++;
           itemsInCurrentRow = 0;
+        } else {
+          abilityRows[currentRow].fromLineBreak = currentRow > 0;
         }
-        // Create a copy to avoid mutating the original
         const displaySelection = { ...selection };
-        displaySelection.Separator = selection.Separator.replace('↵', '').trim();
-        abilityRows[currentRow].push(displaySelection);
+        displaySelection.Separator = '';
+        abilityRows[currentRow].selections.push(displaySelection);
         itemsInCurrentRow++;
-      } 
-      // Check if we need to start a new row due to reaching max items per row
+      }
       else if (itemsInCurrentRow >= this.abilitiesPerRow && itemsInCurrentRow > 0) {
-        abilityRows.push([]);
+        abilityRows.push({ selections: [], fromLineBreak: false });
         currentRow++;
         itemsInCurrentRow = 0;
-        abilityRows[currentRow].push(selection);
+        abilityRows[currentRow].selections.push(selection);
         itemsInCurrentRow++;
-      } 
-      // Add to current row
+      }
       else {
-        abilityRows[currentRow].push(selection);
+        abilityRows[currentRow].selections.push(selection);
         itemsInCurrentRow++;
       }
     }
 
-    // Filter out any empty rows
-    return abilityRows.filter(row => row.length > 0);
+    return abilityRows.filter(row => row.selections.length > 0);
   }
 
-  showPreview(): boolean {
-    const hasAbilities = Array.isArray(this.AbilitySelections) && this.AbilitySelections.some(sel => !!sel.SelectedAbility);
-    
-    return hasAbilities;
-  }
-
-  // TrackBy functions for better performance
-  trackByRowIndex: TrackByFunction<AbilitySelection[]> = (index: number, row: AbilitySelection[]) => {
+  trackByRowIndex: TrackByFunction<PreviewRow> = (index: number, _row: PreviewRow) => {
     return index;
   };
 
-  trackByAbilitySelection: TrackByFunction<AbilitySelection> = (index: number, selection: AbilitySelection) => {
-    return selection.SelectedAbility?.Title + '_' + selection.Separator + '_' + selection.Notes + '_' + index;
+  trackByAbilitySelection: TrackByFunction<AbilitySelection> = (_index: number, selection: AbilitySelection) => {
+    return selection.Id || (selection.SelectedAbility?.Title + '_' + selection.Separator + '_' + selection.Notes);
   };
 
   onImageError(event: Event, ability: Ability): void {
@@ -81,13 +84,13 @@ export class RotationPreview {
       title: ability.Title,
       event
     });
-    // You could set a fallback image here
     const img = event.target as HTMLImageElement;
-    img.style.backgroundColor = '#ff0000'; // Red background to indicate error
+    img.style.backgroundColor = '#ff0000';
     img.alt = `Failed to load: ${ability.Title}`;
   }
 
-  onImageLoad(event: Event, ability: Ability): void {
-    //console.log('Image loaded successfully:', ability.Title, ability.Src);
+  onImageLoad(_event: Event, _ability: Ability): void {
   }
+
+  isBlankSpacer = isBlankSpacer;
 }

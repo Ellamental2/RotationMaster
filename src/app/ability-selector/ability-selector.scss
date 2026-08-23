@@ -1,38 +1,70 @@
-.dropdown-container{
-  display: flex; /* Use Flexbox for layout */
-  align-items: center; /* Center items horizontally */
-  width: 100%; /* Full width of the parent */
-  box-sizing: border-box; /* Include padding in width calculations */
+:host {
+  display: block;
+  width: max-content;
+  max-width: 100%;
 }
 
-.ability-image-container
-{
-    width: 2rem; /* Set a fixed width for ability image container */
-    min-width: 2rem;
-    width: 2rem;
-    height: 2rem; /* Set a fixed height for ability image container */
-    overflow: hidden; /* Hide any overflow */
+.dropdown-container{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  gap: 4px;
+}
 
-    .ability-image {
-        max-width: 2rem; /* Set a fixed width for ability images */
-        max-height: 2rem; /* Set a fixed height for ability images */
-    }
+.separator-slot {
+  flex: 0 0 64px;
+  width: 64px;
+  min-width: 64px;
+  max-width: 64px;
+  overflow: hidden;
 }
 
 .separator-selector {
-  width: 60px !important;
-  min-width: 60px !important;
-  max-width: 60px !important;
+  display: block;
+  width: 64px !important;
+  min-width: 0 !important;
+  max-width: 64px !important;
+  flex: none !important;
+  box-sizing: border-box;
   padding: 0 !important;
 
   &>option{background:#1D190D;}
 }
 
+.ability-image-container
+{
+    width: 2rem;
+    min-width: 2rem;
+    height: 2rem;
+    overflow: hidden;
+    flex-shrink: 0;
+
+    .ability-image {
+        max-width: 2rem; /* Set a fixed width for ability images */
+        max-height: 2rem; /* Set a fixed height for ability images */
+    }
+
+    &.ability-blank-slot {
+        box-sizing: border-box;
+        border: 1px dashed #6a7a82;
+        background: transparent;
+        flex-shrink: 0;
+    }
+}
+
 .ability-notes-input {
+  flex: 0 0 100px !important;
   width: 100px !important;
   min-width: 100px !important;
   max-width: 100px !important;
   padding: 0 !important;
+}
+
+rm-search-dropdown {
+  flex: 0 0 400px;
+  width: 400px;
+  min-width: 400px;
 }
 
 .nisbutton.delete-button:disabled {

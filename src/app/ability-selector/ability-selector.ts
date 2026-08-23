@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Input, Output, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Ability, AbilitySelection } from '../../models';
 import { SearchDropdown } from '../search-dropdown/search-dropdown';
 import { FormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
+import { isBlankSpacer } from '../../abilitiesLookup';
 
 @Component({
     selector: 'rm-ability-selector',
@@ -19,9 +20,11 @@ export class AbilitySelector {
 
   @Output() abilitySelectionChange = new EventEmitter<AbilitySelection>();
   @Output() delete = new EventEmitter();
-  @Output() copy = new EventEmitter<string>(); // Updated to emit a string parameter for copy type
+  @Output() copyAbility = new EventEmitter<string>();
 
   copyMenuVisible = false;
+
+  constructor(private cdr: ChangeDetectorRef) {}
 
   separators: string[] = ['→', '+', '/', 's', 'r', 'tc',
                           '↵ →', '↵ +', '↵ /', '↵ s', '↵ r', '↵ tc',
@@ -30,6 +33,7 @@ export class AbilitySelector {
   onAbilityChange(event: Ability) {
     this.abilitySelection.SelectedAbility = event;
     this.abilitySelectionChange.emit(this.abilitySelection);
+    this.cdr.markForCheck();
   }
 
   onSeparatorChange(event: string) {
@@ -41,4 +45,6 @@ export class AbilitySelector {
     this.abilitySelection.Notes = event;
     this.abilitySelectionChange.emit(this.abilitySelection);
   }
+
+  isBlankSpacer = isBlankSpacer;
 }

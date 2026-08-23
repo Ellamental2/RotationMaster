@@ -1,8 +1,7 @@
-import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, input } from '@angular/core';
-import { Ability, AbilitySelection, Rotation, RotationSet } from '../../models';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
+import { Ability, AbilitySelection, Rotation, RotationSet, normalizeLineBreakSpacing } from '../../models';
 import {CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray} from '@angular/cdk/drag-drop';
-import abilities from '../../assets/abilities.json'; // Assuming you have an abilities.json file in assets
-import { lookupAbilityByEmoji } from '../../abilitiesLookup';
+import { allAbilitiesCatalog, lookupAbilityByEmoji } from '../../abilitiesLookup';
 import { RotationContainerComponent } from '../rotation-container/rotation-container';
 import { FormsModule } from '@angular/forms';
 
@@ -13,8 +12,9 @@ import { FormsModule } from '@angular/forms';
     imports: [RotationContainerComponent, FormsModule, CdkDropList, CdkDrag],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RotationSetComponent implements OnDestroy {
+export class RotationSetComponent implements OnDestroy, OnChanges {
   @Input() abilitiesPerRow: number = 10;
+  @Input() lineBreakSpacing: number = 0;
   @Input() selectedRotationIndex: number = 0;
   @Input() previewOnly: boolean = false;
 
@@ -34,6 +34,18 @@ export class RotationSetComponent implements OnDestroy {
 
   constructor(private cdr: ChangeDetectorRef) {}
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!changes['lineBreakSpacing'] || changes['lineBreakSpacing'].firstChange) {
+      return;
+    }
+
+    const next = normalizeLineBreakSpacing(this.lineBreakSpacing);
+    if (this.rotationSet.lineBreakSpacing !== next) {
+      this.rotationSet.lineBreakSpacing = next;
+      this.cdr.markForCheck();
+    }
+  }
+
   ngOnInit(): void {
     this.loadSavedRotationSets();
     this.loadAllAbilities();
@@ -42,8 +54,7 @@ export class RotationSetComponent implements OnDestroy {
   }
 
   async loadAllAbilities() {
-    //load the abilities.json file as an array of Ability objects and assign to the abilities property
-    this.allAbilities = abilities as Ability[];
+    this.allAbilities = allAbilitiesCatalog;
   }
 
   newRotation(): void {
@@ -101,7 +112,8 @@ export class RotationSetComponent implements OnDestroy {
     return new AbilitySelection(
       obj.Separator,
       obj.SelectedAbility ? this.reviveAbility(obj.SelectedAbility) : null,
-      obj.Notes
+      obj.Notes,
+      obj.Id || obj.id || null
     );
   }
 
@@ -117,7 +129,8 @@ export class RotationSetComponent implements OnDestroy {
   reviveRotationSet(obj: any): RotationSet {
     return new RotationSet(
       obj.Name,
-      obj.Data?.map((obj: any) => this.reviveRotation(obj))
+      obj.Data?.map((rotation: any) => this.reviveRotation(rotation)),
+      obj.lineBreakSpacing ?? obj.LineBreakSpacing
     );
   }
 
@@ -401,6 +414,12 @@ export class RotationSetComponent implements OnDestroy {
       }
     }
 
+    const importedSpacing = normalizeLineBreakSpacing(
+      !Array.isArray(rawData) && rawData
+        ? rawData.lineBreakSpacing ?? rawData.LineBreakSpacing
+        : 0
+    );
+
     // Helper function to normalize ability selection properties with concurrent lookup
     const normalizeAbilitySelection = async (selection: any): Promise<AbilitySelection> => {
       const selectedAbility = selection.selectedAbility || selection.SelectedAbility;
@@ -413,11 +432,12 @@ export class RotationSetComponent implements OnDestroy {
         ability = selectedAbility;
       }
 
-      return {
-        Separator: selection.seperator || selection.Separator || '→',
-        SelectedAbility: ability,
-        Notes: selection.notes || selection.Notes || null
-      };
+      return new AbilitySelection(
+        selection.seperator || selection.Separator || '→',
+        ability,
+        selection.notes || selection.Notes || null,
+        selection.id || selection.Id || null
+      );
     };
 
     // Helper function to normalize rotation properties with concurrent processing
@@ -446,26 +466,22 @@ export class RotationSetComponent implements OnDestroy {
     ) {
       // Check if Data contains rotations or raw abilities
       if (rawData.Data.length === 0) {
-        return new RotationSet(rawData.Name, []);
+        return new RotationSet(rawData.Name, [], importedSpacing);
       } else if (rawData.Data[0].hasOwnProperty('Emoji')) {
         // Array of abilities, wrap in a rotation - process concurrently
         const abilitySelections = await Promise.all(
           rawData.Data.map(async (ability: Ability) => {
             const lookupAbility = lookupAbilityByEmoji(ability.Emoji) || ability;
-            return {
-              Separator: '→',
-              SelectedAbility: lookupAbility,
-              Notes: null
-            };
+            return new AbilitySelection('→', lookupAbility, null);
           })
         );
-        return new RotationSet(rawData.Name, [new Rotation(0, this.defaultRotationName, abilitySelections)]);
+        return new RotationSet(rawData.Name, [new Rotation(0, this.defaultRotationName, abilitySelections)], importedSpacing);
       } else {
         // Array of rotations, normalize each one concurrently
         const normalizedRotations = await Promise.all(
           rawData.Data.map((rotation: any) => normalizeRotation(rotation))
         );
-        return new RotationSet(rawData.Name, normalizedRotations);
+        return new RotationSet(rawData.Name, normalizedRotations, importedSpacing);
       }
     }
 
@@ -478,26 +494,22 @@ export class RotationSetComponent implements OnDestroy {
     ) {
       // Check if data contains rotations or raw abilities
       if (rawData.data.length === 0) {
-        return new RotationSet(rawData.name, []);
+        return new RotationSet(rawData.name, [], importedSpacing);
       } else if (rawData.data[0].hasOwnProperty('Emoji')) {
         // Array of abilities, wrap in a rotation - process concurrently
         const abilitySelections = await Promise.all(
           rawData.data.map(async (ability: Ability) => {
             const lookupAbility = lookupAbilityByEmoji(ability.Emoji) || ability;
-            return {
-              Separator: '→',
-              SelectedAbility: lookupAbility,
-              Notes: null
-            };
+            return new AbilitySelection('→', lookupAbility, null);
           })
         );
-        return new RotationSet(rawData.name, [new Rotation(0, this.defaultRotationName, abilitySelections)]);
+        return new RotationSet(rawData.name, [new Rotation(0, this.defaultRotationName, abilitySelections)], importedSpacing);
       } else {
         // Array of rotations, normalize each one concurrently
         const normalizedRotations = await Promise.all(
           rawData.data.map((rotation: any) => normalizeRotation(rotation))
         );
-        return new RotationSet(rawData.name, normalizedRotations);
+        return new RotationSet(rawData.name, normalizedRotations, importedSpacing);
       }
     }
 
@@ -512,17 +524,14 @@ export class RotationSetComponent implements OnDestroy {
       const abilitySelections = await Promise.all(
         rawData.data.map(async (ability: Ability) => {
           const lookupAbility = lookupAbilityByEmoji(ability.Emoji) || ability;
-          return {
-            Separator: '→',
-            SelectedAbility: lookupAbility,
-            Notes: null
-          };
+          return new AbilitySelection('→', lookupAbility, null);
         })
       );
 
       return new RotationSet(
         rawData.name || this.defaultRotationSetName,
-        [new Rotation(0, this.defaultRotationName, abilitySelections)]
+        [new Rotation(0, this.defaultRotationName, abilitySelections)],
+        importedSpacing
       );
     }
 
@@ -533,17 +542,14 @@ export class RotationSetComponent implements OnDestroy {
         const abilitySelections = await Promise.all(
           rawData.map(async (ability: Ability) => {
             const lookupAbility = lookupAbilityByEmoji(ability.Emoji) || ability;
-            return {
-              Separator: '→',
-              SelectedAbility: lookupAbility,
-              Notes: null
-            };
+            return new AbilitySelection('→', lookupAbility, null);
           })
         );
 
         return new RotationSet(
           this.defaultRotationSetName,
-          [new Rotation(0, `${this.defaultRotationName} 1`, abilitySelections)]
+          [new Rotation(0, `${this.defaultRotationName} 1`, abilitySelections)],
+          importedSpacing
         );
       }
       // If it's an array of ability selections
@@ -553,7 +559,8 @@ export class RotationSetComponent implements OnDestroy {
         );
         return new RotationSet(
           this.defaultRotationSetName,
-          [new Rotation(0, "Rotation 1", normalizedSelections)]
+          [new Rotation(0, "Rotation 1", normalizedSelections)],
+          importedSpacing
         );
       }
     }
