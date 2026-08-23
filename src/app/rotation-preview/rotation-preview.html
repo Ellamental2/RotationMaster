@@ -1,23 +1,33 @@
-@if (showPreview()) {
+@if (hasPreview) {
   <div
     class="rotation-preview"
     [id]="'rotation-preview-' + index"
     >
-    @for (row of getAbilityRows(); track trackByRowIndex($index, row)) {
-      <div class="rotation-preview-row">
-        @for (selection of row; track trackByAbilitySelection($index, selection)) {
+    @for (row of abilityRows; track trackByRowIndex($index, row)) {
+      <div
+        class="rotation-preview-row"
+        [class.from-line-break]="row.fromLineBreak"
+        [style.margin-top]="row.fromLineBreak ? lineBreakExtraGap : null"
+        >
+        @for (selection of row.selections; track trackByAbilitySelection($index, selection); let first = $first) {
           @if (selection.SelectedAbility) {
-            <span class="row-spacer">{{ selection.Separator }}</span>
-            <span class="ability-image-container">
-              <img
-                class="ability-image"
-                [src]="selection.SelectedAbility.Src"
-                [alt]="selection.SelectedAbility.Title"
-                [title]="selection.SelectedAbility.Emoji"
-                loading="lazy"
-                (error)="onImageError($event, selection.SelectedAbility)"
-                (load)="onImageLoad($event, selection.SelectedAbility)"
-                />
+            @if (!first && selection.Separator) {
+              <span class="row-spacer">{{ selection.Separator }}</span>
+            }
+            <span
+              class="ability-image-container"
+              [class.ability-blank-slot]="isBlankSpacer(selection.SelectedAbility)">
+              @if (!isBlankSpacer(selection.SelectedAbility)) {
+                <img
+                  class="ability-image"
+                  [src]="selection.SelectedAbility.Src"
+                  [alt]="selection.SelectedAbility.Title"
+                  [title]="selection.SelectedAbility.Emoji"
+                  loading="lazy"
+                  (error)="onImageError($event, selection.SelectedAbility)"
+                  (load)="onImageLoad($event, selection.SelectedAbility)"
+                  />
+              }
               @if (selection.Notes) {
                 <p class="ability-note">
                   {{ selection.Notes }}

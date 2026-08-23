@@ -1,4 +1,4 @@
-<div class="rotation-container center-aligned">
+<div class="rotation-container">
   @if(!previewOnly) {
     <div class="rotation-label">
       <input
@@ -47,7 +47,9 @@
   <rm-rotation-preview
     [AbilitySelections]="rotation.Data"
     [abilitiesPerRow]="abilitiesPerRow"
+    [lineBreakSpacing]="lineBreakSpacing"
     [index]="rotationIndex"
+    [revision]="previewRevision"
   ></rm-rotation-preview>
 
   @if (showDetails && !previewOnly) {
@@ -59,7 +61,7 @@
         cdkDropList
         (cdkDropListDropped)="drop($any($event))"
         >
-        @for (ability of rotation.Data; track ability; let i = $index) {
+        @for (ability of rotation.Data; track ability.Id; let i = $index) {
           <div
             class="drag-item"
             cdkDrag
@@ -71,7 +73,7 @@
               [isOnly]="rotation.Data.length === 1"
               (abilitySelectionChange)="onAbilitySelectionChange($event, i)"
               (delete)="onDeleteAbilitySelection(i)"
-              (copy)="onCopyAbilitySelection(i, $event)"
+              (copyAbility)="onCopyAbilitySelection(i, $event)"
             ></rm-ability-selector>
           </div>
         }

@@ -1,3 +1,8 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
 .nisbutton {
   width: auto; /* Button width adjusts to its content */
   display: inline-flex; /* Ensures proper alignment of content */
@@ -44,6 +49,15 @@
 
 .example-box:last-child {
   border: none;
+}
+
+#rotationContainers {
+  width: 100%;
+}
+
+.drag-item {
+  width: 100%;
+  box-sizing: border-box;
 }
 
 #addRotationContainerButton {

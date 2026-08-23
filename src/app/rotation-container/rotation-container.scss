@@ -1,15 +1,24 @@
-
+:host {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    align-self: stretch;
+}
 
 .rotation-container {
-    width: 95%;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
     margin: 0;
     border: 1px solid #ccc;
     padding: 10px;
     border-radius: 5px;
     background-color: #1c2c34;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    display: flex; /* Enables flexbox for the container */
-    flex-direction: column; /* Stacks children vertically */
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
 
     .rotation-label {
         align-self: flex-start;
@@ -17,6 +26,19 @@
 
     .dropdown-controls {
         align-self: flex-end;
+    }
+
+    .drag-list {
+        width: max-content;
+        max-width: 100%;
+        margin-inline: auto;
+        align-self: center;
+        text-align: left;
+    }
+
+    .drag-item {
+        display: block;
+        text-align: left;
     }
 
     .nisbutton {

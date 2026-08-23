@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, DOCUMENT, Inject, signal } from '@angular/core';
-import { BoolSettingConfig, IPatch, Patch, Position, RangeSettingConfig, RotationSet, SettingConfig, SettingTypeEnum } from '../models';
+import { BoolSettingConfig, IPatch, Patch, Position, RangeSettingConfig, RotationSet, SettingConfig, SettingTypeEnum, normalizeLineBreakSpacing } from '../models';
 import { blankSettings } from '../assets/blankSettings';
 import patchnotes from '../patchnotes.json';
 import { PatchNotesComponent } from './patch-notes/patch-notes';
@@ -26,7 +26,7 @@ export class App implements AfterViewInit {
   }
 
   protected readonly title = signal('RotationMaster');
-  protected readonly version = signal('3.1.0');
+  protected readonly version = signal('3.2.0');
   protected readonly appName = signal('rotationMaster');
 
   patchNotes: IPatch[] = [];
@@ -35,6 +35,10 @@ export class App implements AfterViewInit {
   selectedIndex: number = 0;
   updatingOverlayPosition = false;
   overlayInitialized: boolean = false;
+  private overlayDirty = true;
+  private cachedOverlayEncoded: string | null = null;
+  private cachedOverlayWidth = 0;
+  private lastWaveCheck = 0;
   
   // Settings related properties
   settings: SettingConfig[] = [];
@@ -102,10 +106,21 @@ export class App implements AfterViewInit {
   }
   
   ngAfterViewInit() {
-    // Use setTimeout to ensure all child components are fully rendered
+    if (!this.hasAlt1()) {
+      return;
+    }
+
     setTimeout(() => {
       this.initializeOverlay();
     }, 100);
+  }
+
+  private hasAlt1(): boolean {
+    return typeof window !== 'undefined' && !!(window as any).alt1;
+  }
+
+  private markOverlayDirty() {
+    this.overlayDirty = true;
   }
 
   onUpdateSetting(event: any) {
@@ -122,6 +137,10 @@ export class App implements AfterViewInit {
       } else if (settingToUpdate.type === SettingTypeEnum.Boolean) {
         this.boolSettings.set(this.settings.filter(s => s.type === SettingTypeEnum.Boolean) as BoolSettingConfig[]);
       }
+    }
+
+    if (settingName === 'uiScale' || settingName === 'abilitiesPerRow' || settingName === 'lineBreakSpacing') {
+      this.markOverlayDirty();
     }
 
     // update local storage
@@ -177,6 +196,7 @@ export class App implements AfterViewInit {
         overlayRefreshRate: 50,
         overlayPosition: { x: 100, y: 100 },
         abilitiesPerRow: 10,
+        lineBreakSpacing: 0,
         uiScale: 100,
         updatingOverlayPosition: false,
         lastKnownVersion: '0.0.1',
@@ -186,7 +206,7 @@ export class App implements AfterViewInit {
     else {
       const savedSettings = JSON.parse(localStorage.getItem(`${this.appName}_settings`) || '{}');
       this.settings.forEach(s => {
-        s.value = savedSettings[s.name] || s.value;
+        s.value = savedSettings[s.name] ?? s.value;
       });
     }
     
@@ -233,13 +253,13 @@ export class App implements AfterViewInit {
       (radio as HTMLInputElement).checked = index === this.selectedIndex;
     });
 
-    // Show rotation name label overlay
+    this.markOverlayDirty();
     this.showRotationNameOverlay();
     
   }
 
   private initializeOverlay() {
-    if (this.overlayInitialized) {
+    if (this.overlayInitialized || !this.hasAlt1()) {
       return;
     }
 
@@ -424,18 +444,41 @@ export class App implements AfterViewInit {
   private currentWave: number | null = null;
 
   startOverlay() {
+    if (!this.hasAlt1()) {
+      return;
+    }
+
     const refreshRate = this.getSettingValue('overlayRefreshRate') || 50;
-    let overlayPosition;
+
+    const paintCachedOverlay = (overlayPosition: { x: number, y: number }) => {
+      if (!this.cachedOverlayEncoded) {
+        return false;
+      }
+      alt1.overLaySetGroup('rotMasterRegion');
+      alt1.overLayFreezeGroup('rotMasterRegion');
+      alt1.overLayClearGroup('rotMasterRegion');
+      alt1.overLayImage(
+        overlayPosition.x,
+        overlayPosition.y,
+        this.cachedOverlayEncoded,
+        this.cachedOverlayWidth,
+        refreshRate
+      );
+      alt1.overLayRefreshGroup('rotMasterRegion');
+      return true;
+    };
 
     const updateOverlay = async () => {
-      // try to get the current wave
-      let wavePos = this.findWave();
-      if (wavePos) {
-        let waveNum = await this.readImageNum(wavePos);
-        if (waveNum && this.currentWave !== waveNum) {
-          // we found a wave number, do something with it
+      const now = Date.now();
+      if (now - this.lastWaveCheck >= 250) {
+        this.lastWaveCheck = now;
+        let wavePos = this.findWave();
+        if (wavePos) {
+          let waveNum = await this.readImageNum(wavePos);
+          if (waveNum && this.currentWave !== waveNum) {
             this.currentWave = waveNum;
             console.log("Current wave/phase: " + waveNum);
+          }
         }
       }
 
@@ -454,6 +497,7 @@ export class App implements AfterViewInit {
         this.selectedRotationSet.Data.some(rs => rs.Wave == this.currentWave) &&
         this.selectedRotationSet.Data[this.selectedIndex]?.Wave != this.currentWave) {
           this.selectedIndex = this.selectedRotationSet.Data.findIndex(rs => rs.Wave == this.currentWave);
+          this.markOverlayDirty();
           this.showRotationNameOverlay();
       }
 
@@ -467,9 +511,15 @@ export class App implements AfterViewInit {
       // Check if there are any abilities to display
       const hasAbilities = selectedRotation.Data.some(selection => selection.SelectedAbility);
       if (!hasAbilities) {
+        this.cachedOverlayEncoded = null;
         alt1.overLayClearGroup('rotMasterRegion');
         alt1.overLayRefreshGroup('rotMasterRegion');
-        // Schedule the next update
+        setTimeout(() => requestAnimationFrame(updateOverlay), refreshRate);
+        return;
+      }
+
+      const overlayPosition = this.getSettingValue('overlayPosition') || { x: 100, y: 100 };
+      if (!this.overlayDirty && paintCachedOverlay(overlayPosition)) {
         setTimeout(() => requestAnimationFrame(updateOverlay), refreshRate);
         return;
       }
@@ -590,7 +640,6 @@ export class App implements AfterViewInit {
 
       const uiScale = this.getSettingValue('uiScale') || 100;
       const abilitiesPerRow = this.getSettingValue('abilitiesPerRow') || 10;
-      const overlayPosition = this.getSettingValue('overlayPosition') || { x: 100, y: 100 };
       
       try {
         const totalTrackedItems = selectedRotation.Data.filter((abilitySelection) => abilitySelection.SelectedAbility).length;
@@ -686,19 +735,13 @@ export class App implements AfterViewInit {
           ?.getImageData(0, 0, dataUrl.width, dataUrl.height);
 
         if (base64ImageString && base64ImageString.width > 0 && base64ImageString.height > 0) {
-          alt1.overLaySetGroup('rotMasterRegion');
-          alt1.overLayFreezeGroup('rotMasterRegion');
-          alt1.overLayClearGroup('rotMasterRegion');
-          alt1.overLayImage(
-            overlayPosition.x,
-            overlayPosition.y,
-            a1lib.encodeImageString(base64ImageString),
-            base64ImageString.width,
-            refreshRate
-          );
-          alt1.overLayRefreshGroup('rotMasterRegion');
+          this.cachedOverlayEncoded = a1lib.encodeImageString(base64ImageString);
+          this.cachedOverlayWidth = base64ImageString.width;
+          this.overlayDirty = false;
+          paintCachedOverlay(overlayPosition);
         } else {
           console.error('Invalid canvas data, clearing overlay');
+          this.cachedOverlayEncoded = null;
           alt1.overLayClearGroup('rotMasterRegion');
           alt1.overLayRefreshGroup('rotMasterRegion');
         }
@@ -779,11 +822,18 @@ export class App implements AfterViewInit {
 
   onSelectedRotationSetChange(rotationSet: RotationSet) {
     this.selectedRotationSet = rotationSet;
-    this.showRotationNameOverlay();
+    const spacing = normalizeLineBreakSpacing(rotationSet.lineBreakSpacing);
+    const setting = this.settings.find(s => s.name === 'lineBreakSpacing');
+    if (setting && setting.value !== spacing) {
+      setting.value = spacing;
+      this.rangeSettings.set(this.settings.filter(s => s.type === SettingTypeEnum.Range && !s.hidden) as RangeSettingConfig[]);
+    }
+    this.markOverlayDirty();
   }
 
   onChangeSelectedRotation(rotationId: number) {
     this.selectedIndex = rotationId;
+    this.markOverlayDirty();
     this.showRotationNameOverlay();
   }
 

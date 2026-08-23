@@ -69,11 +69,24 @@ export enum SettingTypeEnum {
 export class RotationSet {
     Name: string;
     Data: Rotation[];
+    lineBreakSpacing: number;
 
-    constructor(name: string | null = null, data: Rotation[] | null = null) {
+    constructor(name: string | null = null, data: Rotation[] | null = null, lineBreakSpacing: unknown = 0) {
         this.Name = name ?? 'New Rotation Set';
         this.Data = data ?? [new Rotation()];
+        this.lineBreakSpacing = normalizeLineBreakSpacing(lineBreakSpacing);
     }
+}
+
+export function normalizeLineBreakSpacing(value: unknown): number {
+    if (value === null || value === undefined || value === '') {
+        return 0;
+    }
+    const parsed = Number(value);
+    if (!Number.isFinite(parsed)) {
+        return 0;
+    }
+    return Math.min(100, Math.max(0, parsed));
 }
 
 export class Rotation {
@@ -91,15 +104,24 @@ export class Rotation {
 }
 
 export class AbilitySelection {
+    Id: string;
     Separator: string;
     SelectedAbility: Ability | null;
     Notes: string | null;
 
-    constructor(separator: string = '→', selectedAbility: Ability | null = null, notes: string | null = null) {
+    constructor(separator: string = '→', selectedAbility: Ability | null = null, notes: string | null = null, id: string | null = null) {
+        this.Id = id ?? createAbilitySelectionId();
         this.Separator = separator;
         this.SelectedAbility = selectedAbility;
         this.Notes = notes;
     }
+}
+
+export function createAbilitySelectionId(): string {
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+        return crypto.randomUUID();
+    }
+    return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
 }
 
 export class Ability {
