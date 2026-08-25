@@ -1,23 +1,22 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
 .rotation-preview {
-  margin: 15px auto 0 auto; /* Center horizontally, maintain top margin */
-  bottom: 10px;
-  left: 50%; /* Position at center */
+  margin: 15px auto 0 auto;
   background-color: rgba(0, 0, 0, 0.4);
   padding: 10px;
-  width: fit-content; /* Fit to content width */
-  max-width: 100vw; /* Don't exceed viewport width */
-  min-width: fit-content; /* Remove fixed minimum width */
+  width: max-content;
+  max-width: 100%;
+  box-sizing: border-box;
   border-radius: 5px;
   z-index: 1000;
   display: flex;
-  flex-direction: column; /* Stack rows vertically */
-  align-items: flex-start; /* Align rows to the left */
-  gap: 5px; // Add spacing between images
-  
-  // Performance optimizations
-  will-change: transform; /* Hint to browser for GPU acceleration */
-  contain: layout style; /* CSS containment for better performance */
-  transform: translateZ(0); /* Force hardware acceleration */
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: 5px;
 
     .rotation-preview-row {
         display: flex; /* Arrange images in a row */
@@ -36,8 +35,10 @@
             flex-shrink: 0; /* Prevent spacer from shrinking */
         }
 
-        &:first-of-type .row-spacer:first-of-type {
+        > .row-spacer:first-child,
+        .row-spacer:empty {
             display: none;
+            margin: 0;
         }
          
         .ability-image-container {
@@ -72,6 +73,14 @@
                 transform: translateZ(0); /* Force GPU acceleration */
                 will-change: transform; /* Hint for animations */
             }
+        }
+
+        .ability-blank-slot {
+            width: 2rem;
+            height: 2rem;
+            min-width: 2rem;
+            min-height: 2rem;
+            background: transparent;
         }
     }
 }

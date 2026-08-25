@@ -23,6 +23,7 @@ export class RotationContainerComponent implements OnDestroy {
   
   @Input() showDetails: boolean = true;
   @Input() abilitiesPerRow: number = 10;
+  @Input() lineBreakSpacing: number = 0;
 
   @Output() rotationChange = new EventEmitter<Rotation>();
   @Output() deleteRotation = new EventEmitter<number>();
@@ -35,6 +36,7 @@ export class RotationContainerComponent implements OnDestroy {
   // Modal properties
   isEditModalVisible: boolean = false;
   rotationTextValue: string = '';
+  previewRevision = 0;
   private changeTimeout: any;
 
   constructor(private cdr: ChangeDetectorRef) {}
@@ -52,14 +54,16 @@ export class RotationContainerComponent implements OnDestroy {
   }
 
   onRotationChange() {
-    // Debounce rotation changes to reduce excessive emissions
+    this.previewRevision++;
+    this.cdr.markForCheck();
+
     if (this.changeTimeout) {
       clearTimeout(this.changeTimeout);
     }
     
     this.changeTimeout = setTimeout(() => {
       this.rotationChange.emit(this.rotation);
-    }, 50); // 50ms debounce for faster response than parent
+    }, 50);
   }
 
   addAbilitySelection() {

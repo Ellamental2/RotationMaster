@@ -1,29 +1,71 @@
 import { Ability, AbilitySelection } from "./models";
 import abilitiesData from "./assets/abilities.json";
 
+const abilities = abilitiesData as Ability[];
+
+const abilitiesByTitle = new Map<string, Ability>();
+const abilitiesByEmoji = new Map<string, Ability>();
+const abilitySearchIndex: { ability: Ability; key: string }[] = [];
+
+for (const ability of abilities) {
+  abilitiesByTitle.set(ability.Title.toLowerCase(), ability);
+  abilitiesByEmoji.set(ability.Emoji.toLowerCase(), ability);
+  const extra = ability.Title === 'blankspace'
+    ? ' spacer empty gap skip line linha espaço vazio pular layout'
+    : '';
+  abilitySearchIndex.push({
+    ability,
+    key: `${ability.Title} ${ability.Emoji} ${ability.Category}${extra}`.toLowerCase()
+  });
+}
+
+export const allAbilitiesCatalog: Ability[] = abilities;
+
+export function isBlankSpacer(ability: Ability | null | undefined): boolean {
+  return ability?.Title === 'blankspace';
+}
 
 export function lookupAbilityByTitle(emojiString: string) : Ability | null {
-  const abilities = abilitiesData as Ability[];
-
-  const ability = abilities.find((ability : Ability) => ability.Title.toLowerCase() === emojiString.toLowerCase());
-  if (ability) {
-    return ability;
-  }
-  return null
+  return abilitiesByTitle.get(emojiString.toLowerCase()) ?? null;
 }
 
 export function lookupAbilityByEmoji(emojiString: string) : Ability | null {
-  const ability = abilitiesData.find((ability : Ability) => ability.Emoji.toLowerCase() === emojiString.toLowerCase());
-  if (ability) {
-    return ability;
+  return abilitiesByEmoji.get(emojiString.toLowerCase()) ?? null;
+}
+
+export function searchAbilities(query: string, source?: Ability[] | null): Ability[] {
+  const catalog = source?.length ? source : abilities;
+  const val = query.toLowerCase().trim();
+  let results: Ability[];
+
+  if (!val) {
+    results = catalog;
+  } else if (!source || source === abilities || source.length === abilities.length) {
+    results = abilitySearchIndex
+      .filter(entry => entry.key.includes(val))
+      .map(entry => entry.ability);
+  } else {
+    results = catalog.filter(ability =>
+      ability.Title.toLowerCase().includes(val) ||
+      ability.Emoji.toLowerCase().includes(val) ||
+      ability.Category.toLowerCase().includes(val)
+    );
   }
-  return null;
+
+  return pinBlankSpace(results);
+}
+
+function pinBlankSpace(list: Ability[]): Ability[] {
+  const spacerIndex = list.findIndex(ability => ability.Title === 'blankspace');
+  if (spacerIndex <= 0) {
+    return list;
+  }
+
+  const pinned = list[spacerIndex];
+  return [pinned, ...list.slice(0, spacerIndex), ...list.slice(spacerIndex + 1)];
 }
 
 const blank = lookupAbilityByTitle('literallynothing') as Ability;
-
-const separators = ['\\+', '→', '>', '/', 's', 'r', 'tc'];
-const regex = new RegExp(`\\s*(${separators.join('|')})\\s*([^${separators.join('')}]+)`, 'g');
 
 export function transformStringToAbilitySelections(inputString: string): AbilitySelection[] {
   let result = [] as AbilitySelection[];

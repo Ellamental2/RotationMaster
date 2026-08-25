@@ -62,9 +62,11 @@ $offset: 1px;
             outline: none;
         }
         &__scroller {
+            height: 150px;
             max-height: 150px;
             overflow-y: auto;
             cursor: pointer;
+            display: block;
         }
         &__item {
             position: relative;
