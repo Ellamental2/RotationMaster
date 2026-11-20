@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy, Change
 import {Ability, AbilitySelection, Rotation, RotationSet, Trigger, TriggerTypeEnum} from '../../models';
 import {CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray} from '@angular/cdk/drag-drop';
 import abilities from '../../assets/abilities.json'; // Assuming you have an abilities.json file in assets
-import { lookupAbilityByEmoji } from '../../abilitiesLookup';
+import { lookupAbilityByEmoji, transformRotationSetToPluginString } from '../../abilitiesLookup';
 import { RotationContainerComponent } from '../rotation-container/rotation-container';
 import { FormsModule } from '@angular/forms';
 
@@ -17,9 +17,13 @@ export class RotationSetComponent implements OnDestroy {
   @Input() abilitiesPerRow: number = 10;
   @Input() selectedRotationIndex: number = 0;
   @Input() previewOnly: boolean = false;
+  @Input() activeStepIndex: number = -1;
+  @Input() trackerEnabled: boolean = false;
+  @Input() detectedAbilities: Set<string> = new Set();
 
   @Output() changeSelectedRotation = new EventEmitter<number>();
   @Output() rotationSetChange = new EventEmitter<RotationSet>();
+  @Output() calibrateSlot = new EventEmitter<string>();
 
   savedRotationSets: RotationSet[] = [];
   rotationSet: RotationSet = new RotationSet();
@@ -27,6 +31,9 @@ export class RotationSetComponent implements OnDestroy {
   allAbilities: Ability[] = [];
   isAnyModalOpen: boolean = false;
   isLoading: boolean = false;
+  isExportModalVisible: boolean = false;
+  exportTextValue: string = '';
+  exportCopied: boolean = false;
   rotationDetailsVisibility: { [rotationId: number]: boolean } = {};
 
   savedRotationsKey = 'savedRotations';
@@ -101,7 +108,7 @@ export class RotationSetComponent implements OnDestroy {
     return new AbilitySelection(
       obj.Separator,
       obj.SelectedAbility ? this.reviveAbility(obj.SelectedAbility) : null,
-      obj.Notes
+      obj.Notes ?? null
     );
   }
 
@@ -290,30 +297,30 @@ export class RotationSetComponent implements OnDestroy {
       return;
     }
 
-    const rotationSetJson = JSON.stringify(this.rotationSet, null, 2);
-    const fileName = `${this.rotationSet.Name.trim().replace(/\s+/g, '_')}_RotationSet.json`;
-
-    // More Angular-friendly approach
-    this.downloadFile(rotationSetJson, fileName, 'application/json');
+    this.exportTextValue = transformRotationSetToPluginString(this.rotationSet.Name, this.rotationSet.Data);
+    this.exportCopied = false;
+    this.isExportModalVisible = true;
+    this.onModalStateChange(true);
+    this.cdr.markForCheck();
   }
 
-  private downloadFile(data: string, fileName: string, mimeType: string): void {
-    const blob = new Blob([data], { type: mimeType });
-    const url = URL.createObjectURL(blob);
+  closeExportModal(): void {
+    this.isExportModalVisible = false;
+    this.exportTextValue = '';
+    this.onModalStateChange(false);
+    this.cdr.markForCheck();
+  }
 
-    // Create a temporary anchor element
-    const anchor = document.createElement('a');
-    anchor.href = url;
-    anchor.download = fileName;
-    anchor.style.display = 'none';
-
-    // Append to body, click, and remove
-    document.body.appendChild(anchor);
-    anchor.click();
-    document.body.removeChild(anchor);
-
-    // Clean up the object URL
-    URL.revokeObjectURL(url);
+  async copyExportText(textbox: HTMLTextAreaElement): Promise<void> {
+    try {
+      await navigator.clipboard.writeText(this.exportTextValue);
+    } catch {
+      // Fallback for embedded browsers without clipboard API access.
+      textbox.select();
+      document.execCommand('copy');
+    }
+    this.exportCopied = true;
+    this.cdr.markForCheck();
   }
 
   importRotationSet(): void {
@@ -422,11 +429,11 @@ export class RotationSetComponent implements OnDestroy {
         ability = selectedAbility;
       }
 
-      return {
-        Separator: selection.seperator || selection.Separator || '→',
-        SelectedAbility: ability,
-        Notes: selection.notes || selection.Notes || null
-      };
+      return new AbilitySelection(
+        selection.seperator || selection.Separator || '→',
+        ability,
+        selection.notes || selection.Notes || null
+      );
     };
 
     // Helper function to normalize rotation properties with concurrent processing
@@ -473,7 +480,8 @@ export class RotationSetComponent implements OnDestroy {
             return {
               Separator: '→',
               SelectedAbility: lookupAbility,
-              Notes: null
+              Notes: null,
+              Keybind: null
             };
           })
         );
@@ -505,7 +513,8 @@ export class RotationSetComponent implements OnDestroy {
             return {
               Separator: '→',
               SelectedAbility: lookupAbility,
-              Notes: null
+              Notes: null,
+              Keybind: null
             };
           })
         );
@@ -554,7 +563,8 @@ export class RotationSetComponent implements OnDestroy {
             return {
               Separator: '→',
               SelectedAbility: lookupAbility,
-              Notes: null
+              Notes: null,
+              Keybind: null
             };
           })
         );

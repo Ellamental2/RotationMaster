@@ -65,12 +65,22 @@
                 width: 2rem; /* Set a fixed width for ability images */
                 height: 2rem; /* Set a fixed height for ability images */
                 display: block; /* Ensure consistent spacing */
-                
+
                 // Performance optimizations for images
                 image-rendering: -webkit-optimize-contrast; /* Better image rendering */
                 image-rendering: crisp-edges; /* Crisp edges for pixel art */
                 transform: translateZ(0); /* Force GPU acceleration */
                 will-change: transform; /* Hint for animations */
+            }
+
+            &.active-step {
+                outline: 2px solid #ffe066;
+                border-radius: 3px;
+                box-shadow: 0 0 6px 2px rgba(255, 224, 102, 0.6);
+            }
+
+            &.completed-step .ability-image {
+                filter: grayscale(100%) brightness(0.55);
             }
         }
     }

@@ -157,6 +157,24 @@
       ]
     },
     {
+      "version": "3.3.0",
+      "description": "This Alt1 app is now deprecated. Rotation Master is moving to a native plugin for the RuneScape game client. Use the new Export button to bring your rotations across.",
+      "changes": [
+        "DEPRECATED: This Alt1 version of Rotation Master will no longer receive new features. Future development will happen in the new Rotation Master plugin for the RuneScape client.",
+        "The Export button (next to Delete at the top of the rotation set) now opens a window with your whole rotation set as a single line of text, ready for the new plugin.",
+        "To move a rotation set: load it here, click Export, click Copy, then open the new Rotation Master plugin in game and paste the text into its Import box.",
+        "Repeat for each rotation set you want to keep. Rotation names, abilities, separators, notes and new rows are all carried across.",
+        "Triggers (wave/phase, chat and on-completion) are not included in the export and will need to be set up again in the new plugin.",
+        "Keybind Tracker - Step through your rotation with your own keybinds:",
+        "Each ability in a rotation can now have a keybind assigned. All abilities of the same type in the rotation automatically share the same keybind.",
+        "When keybinds are set, the rotation overlay highlights the current step (yellow outline). Abilities that have already been pressed are dimmed to grey so you always know your place.",
+        "Abilities connected by a + or / separator are treated as a single step and highlight together.",
+        "Pressing the keybind for the active step advances the highlight to the next step. When the last step is reached and there is no 'On completion' rotation, the tracker resets to the beginning.",
+        "Added a new trigger type: 'On completion of previous'. When the last keybind of the current rotation is pressed, the overlay automatically switches to the next rotation that has this trigger set.",
+        "Keybind labels are shown beneath each ability image in the overlay whenever keybinds are assigned."
+      ]
+    },
+    {
       "version": "3.2.0",
       "description": "Trigger System - Rotations can now auto-switch based on wave/phase number or in-game chat messages.",
       "changes": [

@@ -36,7 +36,8 @@
           id="newRotationSetButton"
           class="nisbutton"
           (click)="newRotation()"
-          title="Create New Rotation Set"
+          title="This plugin is no longer in use, please use the new plugin in the plugins menu of the game"
+          disabled = true
           >
           <i class="fa-solid fa-file"></i>
         </button>
@@ -80,7 +81,7 @@
         <button
           id="exportButton"
           class="nisbutton"
-          title="Export Rotation Set as JSON"
+          title="Export Rotation for plugin"
           (click)="exportRotationSet()"
           [disabled]="isLoading"
           >
@@ -90,9 +91,10 @@
         <button
           id="importButton"
           class="nisbutton"
-          title="Import Rotation Set from JSON"
+          title="Importing rotations is no longer available,please ue the official plugin"
           (click)="importRotationSet()"
-          [disabled]="isLoading"
+          [disabled]=false
+        
           >
           <i class="fa-solid fa-file-import"></i>
         </button>
@@ -123,12 +125,16 @@
         [rotationIndex]="selectedRotationIndex"
         [showDetails]="getRotationDetailsVisibility(rotationSet.Data[selectedRotationIndex].Id)"
         [previewOnly]="true"
+        [activeStepIndex]="activeStepIndex"
+        [trackerEnabled]="trackerEnabled"
+        [detectedAbilities]="detectedAbilities"
         (rotationChange)="updateRotation($event)"
         (deleteRotation)="deleteRotation($event)"
         (rotationSelected)="onRotationSelected($event)"
         (modalStateChange)="onModalStateChange($event)"
         (loading)="onChildLoading($event)"
         (focusOnRotation)="onFocusOnRotation($event)"
+        (calibrateSlot)="calibrateSlot.emit($event)"
       ></rm-rotation-container>
     }
   } @else {
@@ -144,12 +150,16 @@
             [isSelected]="selectedRotationIndex === i"
             [rotationIndex]="i"
             [showDetails]="getRotationDetailsVisibility(rotation.Id)"
+            [activeStepIndex]="selectedRotationIndex === i ? activeStepIndex : -1"
+            [trackerEnabled]="trackerEnabled"
+            [detectedAbilities]="detectedAbilities"
             (rotationChange)="updateRotation($event)"
             (deleteRotation)="deleteRotation($event)"
             (rotationSelected)="onRotationSelected($event)"
             (modalStateChange)="onModalStateChange($event)"
             (loading)="onChildLoading($event)"
             (focusOnRotation)="onFocusOnRotation($event)"
+            (calibrateSlot)="calibrateSlot.emit($event)"
           ></rm-rotation-container>
         </div>
       }
@@ -164,4 +174,30 @@
       <i class="fa-solid fa-plus"></i> Add Rotation
     </button>
   }
+</div>
+<!-- Plugin Export Modal -->
+<div class="modal-freeze-overlay" [class.visible]="isExportModalVisible" (click)="closeExportModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h3 class="nisheader">Export for RuneScape Plugin: {{ rotationSet.Name }}</h3>
+    <p class="export-hint">
+      Copy this text and paste it into Import in the new Rotation Master plugin.
+      Triggers are not included.
+    </p>
+
+    <textarea
+      #exportTextbox
+      class="rotation-textbox"
+      readonly
+      [value]="exportTextValue"
+      (focus)="exportTextbox.select()"
+    ></textarea>
+
+    <div class="rotation-controls">
+      <button class="nisbutton" (click)="copyExportText(exportTextbox)">
+        <i class="fa-solid" [class.fa-copy]="!exportCopied" [class.fa-check]="exportCopied"></i>
+        {{ exportCopied ? 'Copied' : 'Copy' }}
+      </button>
+      <button class="nisbutton" (click)="closeExportModal()">Close</button>
+    </div>
+  </div>
 </div>

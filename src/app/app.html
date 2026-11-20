@@ -33,9 +33,33 @@
       [abilitiesPerRow]="getSettingValue('abilitiesPerRow')"
       [selectedRotationIndex]="selectedIndex"
       [previewOnly]="getSettingValue('previewOnly')"
+      [activeStepIndex]="activeStepIndex()"
+      [trackerEnabled]="getSettingValue('useKeybinds')"
+      [detectedAbilities]="detectedAbilities()"
       (changeSelectedRotation)="onChangeSelectedRotation($event)"
       (rotationSetChange)="onSelectedRotationSetChange($event)"
+      (calibrateSlot)="onCalibrateSlot($event)"
     ></rm-rotation-set>
+
+    <!-- Calibration Modal -->
+    @if (calibrationState(); as cs) {
+      <div class="modal-freeze-overlay visible" (click)="cancelCalibration()">
+        <div class="modal-content calibration-modal-content" (click)="$event.stopPropagation()">
+          <h3 class="nisheader">Calibrate: {{ cs.abilityTitle }}</h3>
+          <p style="margin: 4px 0 8px; font-size: 13px;">
+            Click on <strong>{{ cs.abilityTitle }}</strong> in your action bar below.
+          </p>
+          <canvas
+            id="calibration-canvas"
+            class="calibration-canvas"
+            (click)="onCalibrationCanvasClick($event)"
+          ></canvas>
+          <div class="rotation-controls" style="margin-top: 8px;">
+            <button class="nisbutton" (click)="cancelCalibration()">Cancel</button>
+          </div>
+        </div>
+      </div>
+    }
 
     <!-- Everything below hidden in preview mode -->
     @if (!getSettingValue('previewOnly')) {

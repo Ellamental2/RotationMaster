@@ -34,6 +34,22 @@
     (ngModelChange)="onNotesChange($event)"
     />
 
+  @if (trackerEnabled && abilitySelection.SelectedAbility) {
+    <span
+      class="slot-status"
+      [class.detected]="slotDetected"
+      [class.undetected]="!slotDetected"
+      [title]="slotDetected ? 'Action bar slot detected' : 'Slot not found — click calibrate'"
+    ></span>
+    <button
+      class="nisbutton calibrate-button"
+      title="Click to manually calibrate slot position"
+      (click)="calibrateSlot.emit(abilitySelection.SelectedAbility!.Title)"
+    >
+      <i class="fa-solid fa-crosshairs"></i>
+    </button>
+  }
+
   <div class="button-dropdown">
     <button
       class="nisbutton copy-button"
@@ -46,14 +62,16 @@
     </button>
     
     <!-- Context Menu -->
-    <div class="copy-context-menu" *ngIf="copyMenuVisible" (mouseleave)="copyMenuVisible = false">
-      <button class="context-menu-item" (click)="copy.emit('after'); copyMenuVisible = false">
-        <i class="fa-solid fa-arrow-right"></i> Copy Here
-      </button>
-      <button class="context-menu-item" (click)="copy.emit('end'); copyMenuVisible = false">
-        <i class="fa-solid fa-arrow-down"></i> Copy to End
-      </button>
-    </div>
+    @if (copyMenuVisible) {
+      <div class="copy-context-menu" (mouseleave)="copyMenuVisible = false">
+        <button class="context-menu-item" (click)="copy.emit('after'); copyMenuVisible = false">
+          <i class="fa-solid fa-arrow-right"></i> Copy Here
+        </button>
+        <button class="context-menu-item" (click)="copy.emit('end'); copyMenuVisible = false">
+          <i class="fa-solid fa-arrow-down"></i> Copy to End
+        </button>
+      </div>
+    }
   </div>
 
   <button

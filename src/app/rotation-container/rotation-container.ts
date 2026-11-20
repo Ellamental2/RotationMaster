@@ -20,9 +20,12 @@ export class RotationContainerComponent implements OnDestroy {
   @Input() isSelected: boolean = false;
   @Input() rotationIndex: number = 0;
   @Input() previewOnly: boolean = false;
+  @Input() activeStepIndex: number = -1;
   
   @Input() showDetails: boolean = true;
   @Input() abilitiesPerRow: number = 10;
+  @Input() trackerEnabled: boolean = false;
+  @Input() detectedAbilities: Set<string> = new Set();
 
   @Output() rotationChange = new EventEmitter<Rotation>();
   @Output() deleteRotation = new EventEmitter<number>();
@@ -30,6 +33,7 @@ export class RotationContainerComponent implements OnDestroy {
   @Output() modalStateChange = new EventEmitter<boolean>();
   @Output() loading = new EventEmitter<boolean>();
   @Output() focusOnRotation = new EventEmitter<number>();
+  @Output() calibrateSlot = new EventEmitter<string>();
   // @Output() reorderRotation = new EventEmitter<{ previousIndex: number, newIndex: number }>();
 
   readonly TriggerTypeEnum = TriggerTypeEnum;

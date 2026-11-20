@@ -1,5 +1,5 @@
 {
-  "appName": "RotationMasterBeta",
+  "appName": "RotationMaster",
   "description": "Use for saving, sharing and viewing ability rotations",
   "appUrl": "./index.html",
   "configUrl": "./appconfig.json",

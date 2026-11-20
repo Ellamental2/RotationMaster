@@ -1,5 +1,11 @@
 <div id="Settings">
-  <h2>RotationMaster - Beta - v{{ version }} </h2>
+  <h2>RotationMaster {{ version }} </h2>
+
+  <h3>This version of Rotaion Master is Deprecated. please use the new version by searching 'Rotation Master' in the plugin hub.
+    Use the export button at the top of this screen to export rotations for use in the new plugin.
+  </h3>
+
+
   <h2>Settings</h2>
 
   <button class="nisbutton" (click)="setOverlayPosition.emit()">Set Overlay Position</button>
@@ -13,6 +19,16 @@
         [setting]="setting"
         (onUpdate)="updateSetting.emit({ name: setting.name, value: $event })"
       ></rm-range-setting>
+    </div>
+  }
+
+  <!-- Boolean Settings -->
+  @for (setting of boolSettings; track setting) {
+    <div class="setting">
+      <rm-bool-setting
+        [setting]="setting"
+        (onUpdate)="updateSetting.emit({ name: setting.name, value: $event })"
+      ></rm-bool-setting>
     </div>
   }
 </div>

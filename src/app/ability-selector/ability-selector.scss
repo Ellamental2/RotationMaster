@@ -35,6 +35,24 @@
   padding: 0 !important;
 }
 
+.slot-status {
+  display: inline-block;
+  width: 10px;
+  min-width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin: 0 2px;
+  flex-shrink: 0;
+
+  &.detected  { background: #4caf50; box-shadow: 0 0 4px #4caf50; }
+  &.undetected { background: #e53935; box-shadow: 0 0 4px #e53935; }
+}
+
+.nisbutton.calibrate-button {
+  padding: 0 6px !important;
+  min-width: unset;
+}
+
 .nisbutton.delete-button:disabled {
     filter: saturate(0.3);
 }

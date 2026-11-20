@@ -79,7 +79,8 @@ export class RotationSet {
 export enum TriggerTypeEnum {
   Wave = 'Wave',
   Chat = 'Chat',
-  Health = 'Health'
+  Health = 'Health',
+  OnCompletion = 'OnCompletion'
 }
 
 export class Trigger {

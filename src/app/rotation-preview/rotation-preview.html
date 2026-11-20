@@ -3,24 +3,28 @@
     class="rotation-preview"
     [id]="'rotation-preview-' + index"
     >
-    @for (row of getAbilityRows(); track trackByRowIndex($index, row)) {
+    @for (row of getDisplayRows(); track trackByRowIndex($index, row)) {
       <div class="rotation-preview-row">
-        @for (selection of row; track trackByAbilitySelection($index, selection)) {
-          @if (selection.SelectedAbility) {
-            <span class="row-spacer">{{ selection.Separator }}</span>
-            <span class="ability-image-container">
+        @for (item of row; track trackByDisplaySelection($index, item)) {
+          @if (item.selection.SelectedAbility) {
+            <span class="row-spacer">{{ item.selection.Separator }}</span>
+            <span
+              class="ability-image-container"
+              [class.active-step]="hasAnyTrackedSlot() && item.stepIndex === activeStepIndex"
+              [class.completed-step]="hasAnyTrackedSlot() && activeStepIndex > 0 && item.stepIndex >= 0 && item.stepIndex < activeStepIndex"
+              >
               <img
                 class="ability-image"
-                [src]="selection.SelectedAbility.Src"
-                [alt]="selection.SelectedAbility.Title"
-                [title]="selection.SelectedAbility.Emoji"
+                [src]="item.selection.SelectedAbility.Src"
+                [alt]="item.selection.SelectedAbility.Title"
+                [title]="item.selection.SelectedAbility.Emoji"
                 loading="lazy"
-                (error)="onImageError($event, selection.SelectedAbility)"
-                (load)="onImageLoad($event, selection.SelectedAbility)"
+                (error)="onImageError($event, item.selection.SelectedAbility)"
+                (load)="onImageLoad($event, item.selection.SelectedAbility)"
                 />
-              @if (selection.Notes) {
+              @if (item.selection.Notes) {
                 <p class="ability-note">
-                  {{ selection.Notes }}
+                  {{ item.selection.Notes }}
                 </p>
               }
             </span>

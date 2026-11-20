@@ -153,6 +153,68 @@ export function transformAbilitySelectionsToString(abilitySelections: AbilitySel
   return result.trim();
 }
 
+// Legacy separator → the new plugin's share separator ('' = side by side).
+const pluginSeparators: { [legacy: string]: string } = {
+  '→': '>', '>': '>', '+': '+', '/': '/', 's': 's', 'r': 'r', 'tc': 'tc', '': ''
+};
+
+// Separators, colons and brackets in notes would be read back as new steps,
+// icons, rotations or sets by the plugin, so they become spaces.
+function cleanPluginNote(note: string): string {
+  return note.replace(/[>→+\/,:|\[\]{}()]/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+// Brackets in a name would end the plugin's [name] or {name} early.
+function cleanPluginName(name: string | null | undefined): string {
+  return (name ?? '').replace(/[\[\]{}]/g, '').trim();
+}
+
+// One rotation in the native RuneScape plugin's share format:
+//   [Name] :a: > :b: + :c: note | > :d:
+export function transformRotationToPluginString(name: string, abilitySelections: AbilitySelection[]): string {
+  const parts: string[] = [`[${cleanPluginName(name)}]`];
+  let stepCount = 0;
+
+  for (const selection of abilitySelections) {
+    const ability = selection.SelectedAbility;
+    const notes = selection.Notes ? cleanPluginNote(selection.Notes) : '';
+
+    let piece: string;
+    if (!ability || ability.Title === blank.Title) {
+      if (!notes) continue;
+      piece = notes; // text-only step
+    } else {
+      piece = `:${ability.Title.replace(/[^A-Za-z0-9_-]/g, '')}:`;
+      if (notes) piece += ` ${notes}`;
+    }
+
+    let separator = (selection.Separator ?? '→').trim();
+    const rowBreak = separator.includes('↵');
+    if (rowBreak) separator = separator.replace('↵', '').trim();
+    separator = pluginSeparators[separator] ?? '>';
+
+    if (stepCount > 0) {
+      // The plugin marks a new row with "|" after the previous step.
+      if (rowBreak) parts.push('|');
+      if (separator !== '') piece = `${separator} ${piece}`;
+    }
+    parts.push(piece);
+    stepCount++;
+  }
+
+  return parts.join(' ');
+}
+
+// A whole rotation set in the native plugin's share format:
+//   {Set name} [Rotation 1] :a: > :b: [Rotation 2] :c:
+export function transformRotationSetToPluginString(setName: string, rotations: { Name: string, Data: AbilitySelection[] }[]): string {
+  const parts = [`{${cleanPluginName(setName)}}`];
+  for (const rotation of rotations) {
+    parts.push(transformRotationToPluginString(rotation.Name, rotation.Data ?? []));
+  }
+  return parts.join(' ');
+}
+
 function isSeparator(character: string) : boolean {
   return character === '+' || character === '→' || character === '/' || character === 's' || character === 'r' || character === 'tc';
 }

@@ -1,14 +1,12 @@
-import { Component, EventEmitter, Input, Output, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Ability, AbilitySelection } from '../../models';
 import { SearchDropdown } from '../search-dropdown/search-dropdown';
 import { FormsModule } from '@angular/forms';
-import { NgIf } from '@angular/common';
-
 @Component({
     selector: 'rm-ability-selector',
     templateUrl: './ability-selector.html',
     styleUrls: ['./ability-selector.scss'],
-    imports: [SearchDropdown, FormsModule, NgIf],
+    imports: [SearchDropdown, FormsModule],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AbilitySelector {
@@ -16,10 +14,13 @@ export class AbilitySelector {
   @Input() abilities: Ability[] = [];
   @Input() isFirst: boolean = false;
   @Input() isOnly: boolean = false;
+  @Input() trackerEnabled: boolean = false;
+  @Input() slotDetected: boolean = false;
 
   @Output() abilitySelectionChange = new EventEmitter<AbilitySelection>();
   @Output() delete = new EventEmitter();
-  @Output() copy = new EventEmitter<string>(); // Updated to emit a string parameter for copy type
+  @Output() copy = new EventEmitter<string>();
+  @Output() calibrateSlot = new EventEmitter<string>();
 
   copyMenuVisible = false;
 

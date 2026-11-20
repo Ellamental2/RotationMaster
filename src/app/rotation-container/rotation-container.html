@@ -24,8 +24,9 @@
         <option value="None">No trigger</option>
         <option [value]="TriggerTypeEnum.Wave">Wave/Phase</option>
         <option [value]="TriggerTypeEnum.Chat">Chat</option>
+        <option [value]="TriggerTypeEnum.OnCompletion">On completion of previous</option>
       </select>
-      @if (rotation.Trigger) {
+      @if (rotation.Trigger && rotation.Trigger.Type !== TriggerTypeEnum.OnCompletion) {
         <input
           [type]="rotation.Trigger.Type === TriggerTypeEnum.Wave ? 'number' : 'text'"
           class="nisinput trigger-value-input"
@@ -60,6 +61,9 @@
     [AbilitySelections]="rotation.Data"
     [abilitiesPerRow]="abilitiesPerRow"
     [index]="rotationIndex"
+    [activeStepIndex]="activeStepIndex"
+    [trackerEnabled]="trackerEnabled"
+    [detectedAbilities]="detectedAbilities"
   ></rm-rotation-preview>
 
   @if (showDetails && !previewOnly) {
@@ -81,9 +85,12 @@
               [abilities]="abilities"
               [isFirst]="i === 0"
               [isOnly]="rotation.Data.length === 1"
+              [trackerEnabled]="trackerEnabled"
+              [slotDetected]="!!ability.SelectedAbility && detectedAbilities.has(ability.SelectedAbility.Title)"
               (abilitySelectionChange)="onAbilitySelectionChange($event, i)"
               (delete)="onDeleteAbilitySelection(i)"
               (copy)="onCopyAbilitySelection(i, $event)"
+              (calibrateSlot)="calibrateSlot.emit($event)"
             ></rm-ability-selector>
           </div>
         }

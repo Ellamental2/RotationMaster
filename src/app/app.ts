@@ -1,8 +1,11 @@
 import { AfterViewInit, Component, DOCUMENT, Inject, signal } from '@angular/core';
 import {
-  BoolSettingConfig, IPatch, Patch, Position, RangeSettingConfig, RotationSet, SettingConfig, SettingTypeEnum,
-  TriggerTypeEnum
+  AbilitySelection, BoolSettingConfig, IPatch, Patch, Position, RangeSettingConfig, RotationSet, SettingConfig,
+  SettingTypeEnum, TriggerTypeEnum
 } from '../models';
+import {
+  captureRsScreen, captureSlotBaseline, detectAbilityInActionBar, isSlotActivated, SlotPosition
+} from '../actionBarMonitor';
 import { blankSettings } from '../assets/blankSettings';
 import patchnotes from '../patchnotes.json';
 import { PatchNotesComponent } from './patch-notes/patch-notes';
@@ -30,7 +33,7 @@ export class App implements AfterViewInit {
   }
 
   protected readonly title = signal('RotationMaster');
-  protected readonly version = signal('3.2.0');
+  protected readonly version = signal('3.3.0');
   protected readonly appName = signal('rotationMaster');
 
   patchNotes: IPatch[] = [];
@@ -62,6 +65,8 @@ export class App implements AfterViewInit {
     this.initSettings();
     this.showPatchNotes(false);
     this.onUpdateSetting({ name: 'lastKnownVersion', value: this.version() })
+
+    this.loadSlotPositions();
 
     if (window.alt1) {
       a1lib.identifyApp('./appconfig.json');
@@ -109,6 +114,7 @@ export class App implements AfterViewInit {
     // Use setTimeout to ensure all child components are fully rendered
     setTimeout(() => {
       this.initializeOverlay();
+      this.startActionBarMonitoring();
     }, 100);
   }
 
@@ -126,6 +132,11 @@ export class App implements AfterViewInit {
       } else if (settingToUpdate.type === SettingTypeEnum.Boolean) {
         this.boolSettings.set(this.settings.filter(s => s.type === SettingTypeEnum.Boolean) as BoolSettingConfig[]);
       }
+    }
+
+    // Trigger auto-detection when tracker is enabled
+    if (settingName === 'useKeybinds' && settingValue === true) {
+      this.detectAbilitiesInCurrentRotation();
     }
 
     // update local storage
@@ -230,6 +241,7 @@ export class App implements AfterViewInit {
     if (numRots <= 1) { return; }
 
     this.selectedIndex = (this.selectedIndex + 1) % numRots; // Cycle through rotations
+    this.activeStepIndex.set(0);
 
     //update selected value of radiobuttons in ui
     const rotationRadios = document.querySelectorAll('input[name="rotationSelector"]');
@@ -437,19 +449,33 @@ export class App implements AfterViewInit {
   private currentWave: number | null = null;
   protected currentChatLine: string | null = null;
 
+  readonly activeStepIndex = signal<number>(0);
+  readonly detectedAbilities = signal<Set<string>>(new Set());
+
+  private slotPositions: Map<string, SlotPosition> = new Map();
+
+  // ── Action bar monitoring ─────────────────────────────────────────────────
+  private actionBarMonitorHandle: any;
+  private slotBaseline: ImageData | null = null;
+  private lastMonitoredStep: number = -1;
+
+  // ── Calibration state ─────────────────────────────────────────────────────
+  readonly calibrationState = signal<{ abilityTitle: string; canvasScaleX: number; canvasScaleY: number } | null>(null);
+
   private lastRenderedHash: string = '';
   private lastRenderedImage: { encoded: string, width: number } | null = null;
 
   private getRotationHash(rotationIndex: number): string {
     const rotation = this.selectedRotationSet.Data[rotationIndex];
     if (!rotation) return '';
-    // Cheap hash: index + name + ability titles joined
+    const useTracker = !!this.getSettingValue('useKeybinds');
     const abilityStr = rotation.Data
       .filter(s => s.SelectedAbility)
-      .map(s => s.SelectedAbility!.Title)
+      .map(s => `${s.Separator}:${s.SelectedAbility!.Title}:${s.Notes ?? ''}`)
       .join(',');
     const pos = this.getSettingValue('overlayPosition') || { x: 0, y: 0 };
-    return `${rotationIndex}|${rotation.Name}|${abilityStr}|${this.getSettingValue('uiScale')}|${(pos as any).x},${(pos as any).y}`;
+    const stepPart = useTracker ? `|${this.activeStepIndex()}` : '';
+    return `${rotationIndex}|${rotation.Name}|${abilityStr}|${this.getSettingValue('uiScale')}|${(pos as any).x},${(pos as any).y}|tracker:${useTracker}${stepPart}`;
   }
 
   startOverlay() {
@@ -477,6 +503,7 @@ export class App implements AfterViewInit {
 
       if (this.shouldSwitchRotation(matchedIndex)) {
         this.selectedIndex = matchedIndex;
+        this.activeStepIndex.set(0);
         this.lastRenderedHash = ''; // force re-render on switch
         this.showRotationNameOverlay();
       }
@@ -827,10 +854,15 @@ export class App implements AfterViewInit {
   onSelectedRotationSetChange(rotationSet: RotationSet) {
     this.selectedRotationSet = rotationSet;
     this.showRotationNameOverlay();
+    if (this.getSettingValue('useKeybinds')) {
+      this.detectAbilitiesInCurrentRotation();
+    }
   }
 
   onChangeSelectedRotation(rotationId: number) {
     this.selectedIndex = rotationId;
+    this.activeStepIndex.set(0);
+    this.lastRenderedHash = '';
     this.showRotationNameOverlay();
   }
 
@@ -858,6 +890,188 @@ export class App implements AfterViewInit {
       img.onerror = reject;
     });
   }
+
+  // ── Step grouping ─────────────────────────────────────────────────────────
+
+  private isGroupingSeparator(sep: string): boolean {
+    return sep.includes('+') || sep.includes('/');
+  }
+
+  private getRotationSteps(data: AbilitySelection[]): AbilitySelection[][] {
+    const steps: AbilitySelection[][] = [];
+    let current: AbilitySelection[] = [];
+    for (const sel of data) {
+      if (!sel.SelectedAbility) continue;
+      if (current.length === 0 || !this.isGroupingSeparator(sel.Separator)) {
+        if (current.length > 0) steps.push(current);
+        current = [sel];
+      } else {
+        current.push(sel);
+      }
+    }
+    if (current.length > 0) steps.push(current);
+    return steps;
+  }
+
+  // ── Action bar monitoring ─────────────────────────────────────────────────
+
+  private startActionBarMonitoring(): void {
+    const poll = () => {
+      this.pollActionBarStep();
+      this.actionBarMonitorHandle = setTimeout(poll, 150);
+    };
+    poll();
+  }
+
+  private pollActionBarStep(): void {
+    if (!this.getSettingValue('useKeybinds') || !window.alt1) return;
+
+    const rotation = this.selectedRotationSet?.Data[this.selectedIndex];
+    if (!rotation) return;
+
+    const steps = this.getRotationSteps(rotation.Data);
+    if (steps.length === 0) return;
+
+    const currentStep = this.activeStepIndex();
+
+    // Reset baseline whenever the active step changes
+    if (currentStep !== this.lastMonitoredStep) {
+      this.slotBaseline = null;
+      this.lastMonitoredStep = currentStep;
+    }
+
+    const activeGroup = steps[currentStep];
+    if (!activeGroup) return;
+
+    // Find the first ability in the group that has a known slot position
+    const target = activeGroup.find(s => s.SelectedAbility && this.slotPositions.has(s.SelectedAbility.Title));
+    if (!target?.SelectedAbility) return;
+
+    const slot = this.slotPositions.get(target.SelectedAbility.Title)!;
+
+    // Capture a fresh baseline on the first tick for this step
+    if (!this.slotBaseline) {
+      this.slotBaseline = captureSlotBaseline(slot);
+      return;
+    }
+
+    if (isSlotActivated(slot, this.slotBaseline)) {
+      this.slotBaseline = null;
+      this.advanceStep(steps.length);
+    }
+  }
+
+  private advanceStep(totalSteps: number): void {
+    const step = this.activeStepIndex();
+    if (step < totalSteps - 1) {
+      this.activeStepIndex.set(step + 1);
+      this.lastRenderedHash = '';
+    } else {
+      const switched = this.switchToOnCompletionRotation();
+      if (!switched) {
+        this.activeStepIndex.set(0);
+        this.lastRenderedHash = '';
+      }
+    }
+  }
+
+  private switchToOnCompletionRotation(): boolean {
+    const targetIndex = this.selectedRotationSet?.Data.findIndex(
+      r => r.Trigger?.Type === TriggerTypeEnum.OnCompletion
+    ) ?? -1;
+    if (targetIndex !== -1 && targetIndex !== this.selectedIndex) {
+      this.selectedIndex = targetIndex;
+      this.activeStepIndex.set(0);
+      this.lastRenderedHash = '';
+      this.showRotationNameOverlay();
+      return true;
+    }
+    return false;
+  }
+
+  // ── Auto-detection ────────────────────────────────────────────────────────
+
+  async detectAbilitiesInCurrentRotation(): Promise<void> {
+    if (!window.alt1) return;
+    const rotation = this.selectedRotationSet?.Data[this.selectedIndex];
+    if (!rotation) return;
+
+    const seen = new Set<string>();
+    for (const sel of rotation.Data) {
+      if (!sel.SelectedAbility) continue;
+      const title = sel.SelectedAbility.Title;
+      if (this.slotPositions.has(title) || seen.has(title)) continue;
+      seen.add(title);
+      const pos = await detectAbilityInActionBar(sel.SelectedAbility.Src);
+      if (pos) this.slotPositions.set(title, pos);
+    }
+
+    this.saveSlotPositions();
+    this.detectedAbilities.set(new Set(this.slotPositions.keys()));
+    this.lastRenderedHash = '';
+  }
+
+  // ── Calibration ───────────────────────────────────────────────────────────
+
+  onCalibrateSlot(abilityTitle: string): void {
+    const result = captureRsScreen();
+    if (!result) {
+      alert('Alt1 not available — cannot capture RS screen.');
+      return;
+    }
+    this.calibrationState.set({
+      abilityTitle,
+      canvasScaleX: result.scaleX,
+      canvasScaleY: result.scaleY
+    });
+    // Draw the screenshot into the modal canvas after Angular renders it
+    setTimeout(() => {
+      const canvas = document.getElementById('calibration-canvas') as HTMLCanvasElement | null;
+      if (!canvas) return;
+      canvas.width = result.canvas.width;
+      canvas.height = result.canvas.height;
+      canvas.getContext('2d')!.drawImage(result.canvas, 0, 0);
+    }, 50);
+  }
+
+  onCalibrationCanvasClick(event: MouseEvent): void {
+    const state = this.calibrationState();
+    if (!state) return;
+    const canvas = event.currentTarget as HTMLCanvasElement;
+    const rect = canvas.getBoundingClientRect();
+    const rsX = Math.round((event.clientX - rect.left) / state.canvasScaleX);
+    const rsY = Math.round((event.clientY - rect.top) / state.canvasScaleY);
+    this.slotPositions.set(state.abilityTitle, { x: rsX, y: rsY });
+    this.saveSlotPositions();
+    this.detectedAbilities.set(new Set(this.slotPositions.keys()));
+    this.calibrationState.set(null);
+    this.lastRenderedHash = '';
+  }
+
+  cancelCalibration(): void {
+    this.calibrationState.set(null);
+  }
+
+  // ── Slot position persistence ─────────────────────────────────────────────
+
+  private loadSlotPositions(): void {
+    try {
+      const raw = localStorage.getItem(`${this.appName()}_slotPositions`);
+      if (raw) {
+        const obj = JSON.parse(raw) as Record<string, SlotPosition>;
+        this.slotPositions = new Map(Object.entries(obj));
+        this.detectedAbilities.set(new Set(this.slotPositions.keys()));
+      }
+    } catch { /* ignore corrupt data */ }
+  }
+
+  private saveSlotPositions(): void {
+    const obj: Record<string, SlotPosition> = {};
+    this.slotPositions.forEach((v, k) => { obj[k] = v; });
+    localStorage.setItem(`${this.appName()}_slotPositions`, JSON.stringify(obj));
+  }
+
+  // ── Trigger detection ──────────────────────────────────────────────────────
 
   private findRotationIndexByTrigger(wave: number | null, chatLine: string | null, health: number | null): number {
     return this.selectedRotationSet.Data.findIndex(rotation => {

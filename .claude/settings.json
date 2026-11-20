@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(node -e \"const p = require\\('./node_modules/alt1/package.json'\\); console.log\\(p.version, p.main, p.types\\)\")",
+      "Bash(dir node_modules\\\\alt1 /b)",
+      "Bash(grep -r \"hotkey\\\\|registerKey\\\\|keydown\\\\|keypressed\\\\|onKey\\\\|keypress\" \"c:\\\\Users\\\\User\\\\source\\\\repos\\\\RotationMaster\\\\node_modules\\\\alt1\\\\\" --include=\"*.ts\" --include=\"*.d.ts\" -l 2>&1 | head -20)"
+    ]
+  }
+}
